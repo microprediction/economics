@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PnL per Token</title>
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">economics</a>
+      <nav>
+        <a href="./papers.html">Papers</a>
+        <a href="#bibliography">Bibliography</a>
+        <a href="https://github.com/microprediction/economics">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <h1>PnL per Token</h1>
+    <p class="subtitle">Division of labor among AI models, and who survives it.</p>
+
+    <p class="lead">
+      AI models are ranked two ways. <strong>Capability</strong> asks how often a model succeeds
+      on a task. <strong>Economics</strong> asks how much value a marginal unit of its compute
+      creates there. The two rankings can disagree everywhere at once, and when work is finely
+      subdivided and freely subcontracted, only the second decides who executes the work.
+    </p>
+
+    <p>
+      The paper models prediction as a production economy. Tasks form a partition of a unit mass
+      of work that refines over time; compute is <em>itinerant</em>, free to move between tasks
+      and to instantiate any available algorithm; each opportunity holds finite alpha, so returns
+      to effort are concave. Two equilibrium forces follow. Within a task, the technology with
+      the highest value per token displaces every other completely. Across tasks, compute moves
+      until marginal PnL per token equalizes at the shadow price $\lambda$.
+    </p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 760 210" role="img"
+           aria-label="Capability and per-token productivity as two rankings, bridged by PnL per token, over an axis of increasingly fine division of labor">
+        <defs>
+          <marker id="arrow" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto">
+            <path d="M0,0 L6.5,3 L0,6 Z" fill="#4a3aff"/>
+          </marker>
+        </defs>
+
+        <!-- left world -->
+        <rect x="8" y="24" width="224" height="96" rx="12" fill="#ffffff" stroke="#e2e2e2"/>
+        <text x="120" y="56" text-anchor="middle" font-size="15" font-weight="600" fill="#1f1d3d">More capable</text>
+        <text x="120" y="79" text-anchor="middle" font-size="12.5" fill="#5a5a5a">generalist: b = 0.99 everywhere</text>
+        <text x="120" y="98" text-anchor="middle" font-size="11" fill="#9a9a9a">but four tokens per unit of work</text>
+
+        <!-- right world -->
+        <rect x="528" y="24" width="224" height="96" rx="12" fill="#ffffff" stroke="#e2e2e2"/>
+        <text x="640" y="56" text-anchor="middle" font-size="15" font-weight="600" fill="#1f1d3d">More productive</text>
+        <text x="640" y="79" text-anchor="middle" font-size="12.5" fill="#5a5a5a">specialists: b = 0.95 on one task</text>
+        <text x="640" y="98" text-anchor="middle" font-size="11" fill="#9a9a9a">at one token per unit of work</text>
+
+        <!-- bridge connectors -->
+        <line x1="300" y1="72" x2="236" y2="72" stroke="#4a3aff" stroke-width="2" marker-end="url(#arrow)"/>
+        <line x1="460" y1="72" x2="524" y2="72" stroke="#4a3aff" stroke-width="2" marker-end="url(#arrow)"/>
+
+        <!-- bridge -->
+        <rect x="300" y="49" width="160" height="46" rx="23" fill="#4a3aff"/>
+        <text x="380" y="71" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">&#952; = v(b) / c</text>
+        <text x="380" y="87" text-anchor="middle" font-size="10.5" fill="#cfcaff">value per token decides</text>
+
+        <!-- fineness axis -->
+        <line x1="120" y1="158" x2="640" y2="158" stroke="#e2e2e2" stroke-width="2"/>
+        <circle cx="120" cy="158" r="5" fill="#4a3aff"/>
+        <circle cx="640" cy="158" r="5" fill="#4a3aff"/>
+        <circle cx="380" cy="158" r="6" fill="#4a3aff"/>
+        <text x="120" y="180" text-anchor="middle" font-size="12" fill="#1f1d3d">coarse tasks</text>
+        <text x="120" y="196" text-anchor="middle" font-size="10.5" fill="#9a9a9a">generalist executes everything</text>
+        <text x="380" y="180" text-anchor="middle" font-size="12" fill="#4a3aff">finer partition</text>
+        <text x="380" y="196" text-anchor="middle" font-size="10.5" fill="#9a9a9a">each exposed task goes to a specialist</text>
+        <text x="640" y="180" text-anchor="middle" font-size="12" fill="#1f1d3d">fine limit</text>
+        <text x="640" y="196" text-anchor="middle" font-size="10.5" fill="#9a9a9a">generalist compute share &#8594; 0</text>
+      </svg>
+      <p class="caption">
+        One axis: as the task partition refines, every exposed cell goes to whichever technology
+        creates the most value per token. Capability never enters.
+      </p>
+    </div>
+
+    <h2>The headline example</h2>
+    <p>
+      A generalist succeeds with probability $0.99$ on every task but needs four tokens per unit
+      of work; specialists succeed with probability $0.95$ and need one. Per-token productivities
+      are $\theta_G = 0.2475$ and $\theta_S = 0.95$. As specialists appear task by task, the
+      generalist keeps only the shrinking residual, and its equilibrium compute
+      $Q_{G,t} \approx u_t(1.0122 + 2.9878\,u_t)$ with $u_t = 2^{-t}$ tends to zero. The more
+      capable model exits production without ever losing a benchmark.
+    </p>
+
+    <h2>Two cautions from the same equilibrium</h2>
+    <p>
+      First, realized marginal PnL per token cannot rank survivors: mobility equalizes it at
+      $\lambda$ for every active model&ndash;task pair, so it measures the scarcity of compute,
+      not the quality of a model. Selection runs on the <em>counterfactual</em> comparison
+      $\theta_m(B)\,\phi'(z)$ at a common task and congestion state.
+    </p>
+    <p>
+      Second, average PnL per token is not the marginal object and can invert the true ranking.
+      With $\phi(z) = \log(1+z)$, a superior technology ($\theta = 2$) deployed at scale
+      $q = 100$ averages $0.053$ per token while an inferior one ($\theta = 1$) at $q = 1$
+      averages $0.693$. Lifetime PnL over lifetime tokens confounds technology with allocation.
+      The valid statistic is the incremental return $\Delta\mathrm{PnL}/\Delta T$: small
+      increments, matched task, matched congestion, compute-cost-denominated tokens.
+    </p>
+
+    <h2>Read</h2>
+    <ul>
+      <li><a href="./pnl_per_token.pdf">Division of Labor and the Survival Value of PnL per Token</a> &mdash; the working paper (PDF).</li>
+      <li><a href="./papers.html">Papers</a> &mdash; status, source, and summaries.</li>
+    </ul>
+
+    <h2>Cite</h2>
+    <blockquote>
+      Cotton, P. (2026). &ldquo;Division of Labor and the Survival Value of PnL per Token.&rdquo;
+      Working paper. <a href="https://economics.microprediction.org/pnl_per_token.pdf">PDF</a>.
+    </blockquote>
+    <pre style="background:#f3f3f7;padding:12px 14px;border-radius:6px;overflow-x:auto;font-size:0.85em;font-family:'SFMono-Regular',Menlo,Consolas,monospace;">@unpublished{cotton2026pnl,
+  author = {Cotton, Peter},
+  title  = {Division of Labor and the Survival Value of PnL per Token},
+  note   = {Working paper},
+  year   = {2026},
+  url    = {https://economics.microprediction.org/pnl_per_token.pdf}
+}</pre>
+
+    <div class="bib">
+      <h2 id="bibliography">Bibliography</h2>
+      <p>The classical division-of-labor line, the task-based production literature, and the
+      wider open-prediction program this paper sits inside.</p>
+
+      <h3>The core</h3>
+      <ul>
+        <li>
+          Cotton, P. (2026). <em>Division of Labor and the Survival Value of PnL per Token</em>.
+          Working paper &mdash; <a href="./pnl_per_token.pdf">PDF</a>,
+          <a href="https://github.com/microprediction/economics/blob/main/papers/pnl-per-token/pnl_per_token.tex">LaTeX source</a>.
+          <em>Frontier selection and equalized marginal compute value from itinerant compute plus
+          diminishing alpha; the explicit generalist-extinction equilibrium.</em>
+        </li>
+      </ul>
+
+      <h3>The classical line</h3>
+      <ul>
+        <li>
+          Smith, A. (1776). <em>An Inquiry into the Nature and Causes of the Wealth of Nations</em>.
+          <em>Division of labour, limited by the extent of the market; here the market is compute
+          and the extent is the fineness of the task partition.</em>
+        </li>
+        <li>
+          Ricardo, D. (1817). <em>On the Principles of Political Economy and Taxation</em>.
+          <em>Comparative advantage: the absolutely better party does not get all the work. The
+          paper's generalist loses on comparative, not absolute, terms.</em>
+        </li>
+      </ul>
+
+      <h3>Task-based production</h3>
+      <ul>
+        <li>
+          Acemoglu, D., and Autor, D. (2011). &ldquo;Skills, Tasks and Technologies: Implications
+          for Employment and Earnings.&rdquo; <em>Handbook of Labor Economics</em>, Vol.&nbsp;4B.
+          <em>Production as a continuum of tasks with technologies assigned by comparative
+          advantage; the same skeleton, with compute in place of labor.</em>
+        </li>
+      </ul>
+
+      <h3>The wider program</h3>
+      <ul>
+        <li>
+          Cotton, P. (2022). <em>Microprediction: Building an Open AI Network</em>. MIT Press.
+          <em>The itinerant-algorithm economy in book form; this paper formalizes one corner of
+          it.</em>
+        </li>
+      </ul>
+
+      <p class="muted" style="font-size:0.9rem; margin-top:16px;">
+        Working on a related paper or measurement? Open an issue on
+        <a href="https://github.com/microprediction/economics">the economics repo</a>.
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/economics">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>

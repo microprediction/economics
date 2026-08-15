@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Economics &mdash; Papers</title>
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="./index.html">economics</a>
+      <nav>
+        <strong>Papers</strong>
+        <a href="./index.html#bibliography">Bibliography</a>
+        <a href="https://github.com/microprediction/economics">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <p class="pagenav"><a href="./index.html">&larr; Home</a></p>
+    <h1>Papers</h1>
+    <p class="subtitle">Working papers on the economics of AI production. For context and the
+    classical line, see the <a href="./index.html#bibliography">bibliography</a>.</p>
+
+    <div class="bib">
+    <h2>Working papers</h2>
+    <ul>
+      <li>
+        Cotton, P. (2026).
+        <a href="./pnl_per_token.pdf"><em>Division of Labor and the Survival Value of PnL per
+        Token</em></a>. Working paper &mdash; <a href="./pnl_per_token.pdf">PDF</a>,
+        <a href="https://github.com/microprediction/economics/blob/main/papers/pnl-per-token/pnl_per_token.tex">LaTeX source</a>.
+        <em>A competitive economy of prediction tasks supplied by itinerant compute. Mobility
+        equalizes marginal PnL per token at the shadow price $\lambda$; within any subcontractible
+        task the technology with the highest per-token value $\theta = v(b)/c$ displaces every
+        other completely. As the task partition refines, a generalist that wins on capability
+        everywhere ($b = 0.99$ vs $0.95$) but loses on per-token value ($\theta = 0.2475$ vs
+        $0.95$) has equilibrium compute share tending to zero. Includes limiting theorems in both
+        directions, and the measurement consequences: realized marginal PnL per token cannot rank
+        survivors, and average PnL per token can invert the true productivity ranking.</em>
+      </li>
+    </ul>
+    </div>
+
+    <h2>Cite</h2>
+    <pre style="background:#f3f3f7;padding:12px 14px;border-radius:6px;overflow-x:auto;font-size:0.85em;font-family:'SFMono-Regular',Menlo,Consolas,monospace;">@unpublished{cotton2026pnl,
+  author = {Cotton, Peter},
+  title  = {Division of Labor and the Survival Value of PnL per Token},
+  note   = {Working paper},
+  year   = {2026},
+  url    = {https://economics.microprediction.org/pnl_per_token.pdf}
+}</pre>
+  </main>
+
+  <footer>
+    <a href="https://github.com/microprediction/economics">Source</a> &middot;
+    Maintained by <a href="https://github.com/microprediction">Peter Cotton</a>.
+  </footer>
+</body>
+</html>
