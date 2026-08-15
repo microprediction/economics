@@ -1,0 +1,448 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1.15in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\usepackage{enumitem}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{assumption}{Assumption}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\PnL}{\mathrm{PnL}}
+\DeclarePairedDelimiter{\pos}{(}{)_{+}}
+
+\title{Division of Labor and the Survival Value of\\ PnL per Token}
+\author{Peter Cotton}
+\date{August 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+A model can be more capable than every competitor and nevertheless disappear from most economic production. We formalize this claim in a competitive economy of prediction tasks in which standardized units of compute (``tokens'') are itinerant: at zero switching cost they may move between tasks and may instantiate whichever available algorithm they choose. Mobility generates a no-arbitrage condition under which \emph{marginal} profit-and-loss per token is equalized across all active uses of compute, and any technology offering a strictly smaller return on the same subcontractible task receives zero execution share. As the division of labor becomes progressively finer, execution is therefore selected by \emph{task-conditional marginal economic productivity per standardized unit of compute}---not by generic capability. We exhibit an explicit equilibrium in which a generalist that is strictly more capable than every specialist on every task nonetheless has compute market share tending to zero, and we give sufficient conditions, in both directions, relating asymptotic execution share to membership of the active productivity frontier. Two cautions follow directly from the equilibrium itself: realized marginal PnL per token is equalized across all surviving uses of compute and so cannot rank them, and aggregate PnL divided by aggregate tokens can invert the true productivity ranking through congestion and task mix. The economically meaningful empirical object is the \emph{incremental} PnL per unit of standardized compute, evaluated on comparable tasks at a common congestion state; the theory says exactly when such a statistic measures survival-relevant productivity and when it is contaminated.
+\end{abstract}
+
+\section{Introduction}
+
+A model can be more capable than every competitor and nevertheless disappear from most economic production. The reason is division of labor.
+
+When computational work can be subdivided and subcontracted without friction, a large general model should not perform every subtask itself. It should delegate each sufficiently separable piece of work to whichever available technology creates the greatest \emph{marginal economic value per unit of compute}. As the subdivision becomes finer, survival therefore depends not on being the most capable model overall, but on remaining economically efficient on some part of the production chain.
+
+This paper makes that claim precise, and it is worth being precise about what is and is not established. What the model delivers is a \emph{selection principle}: competitive division of labor selects technologies by task-conditional marginal economic value per standardized unit of compute. What the model emphatically does \emph{not} deliver is a license to read survival off realized PnL-per-token ratios. Indeed the equilibrium itself supplies two warnings. First, in equilibrium every active use of compute earns the same marginal PnL per token---the common shadow price of compute---so the realized marginal statistic is cross-sectionally uninformative among survivors; what determines selection is the \emph{counterfactual} comparison of technologies on the same task at the same congestion state. Second, average PnL per token (lifetime PnL over lifetime tokens) is not even an estimate of the marginal object, and under the model's own concave production function the average statistic can rank a strictly inferior technology above a strictly superior one. Section~\ref{sec:measure} develops both points and states the conditions under which an empirical PnL-per-compute statistic is a valid estimate of the survival-relevant quantity.
+
+The paper is organized as follows. Section~\ref{sec:economy} sets out a production economy of prediction tasks supplied by itinerant compute, together with the standing assumptions. Section~\ref{sec:equilibrium} characterizes competitive equilibrium as the equalization of marginal PnL per token, and distinguishes the equilibrium shadow price from the technological productivity that governs selection. Section~\ref{sec:displacement} shows that within any subcontractible task, only the frontier technology is executed. Section~\ref{sec:explicit} solves an explicit equilibrium in closed form. Section~\ref{sec:subdivision} gives a microfounded feasible-set argument for why a profit-maximizing general contractor adopts every economically useful refinement of the task partition. Sections~\ref{sec:extinction} and~\ref{sec:shares} construct an explicit example in which a strictly more capable generalist is driven to zero compute share. Section~\ref{sec:limit} states limiting results in both directions, relating asymptotic execution share to membership of the active productivity frontier, and is explicit about the sense in which these are allocation theorems conditional on technological arrival rather than predictions of arrival. Section~\ref{sec:manager} discusses---as interpretation, not theorem---the surviving role of large models as orchestrators. Section~\ref{sec:measure} concludes with what PnL per token does and does not measure.
+
+\section{Prediction as a production economy}
+\label{sec:economy}
+
+Consider discrete dates $t = 0, 1, 2, \ldots$. At each date there is a root prediction problem represented by a unit mass of underlying work,
+\begin{equation}
+\Omega = [0,1],
+\end{equation}
+equipped with Lebesgue measure $\mu$. Points $x \in \Omega$ are primitive microtasks. At date $t$, the problem can be subdivided into a finite partition
+\begin{equation}
+\mathcal{P}_t = \{B_1, \ldots, B_{n_t}\}
+\end{equation}
+of $\Omega$ into measurable cells. Subdivision becomes progressively finer:
+\begin{equation}
+\mathcal{P}_{t+1} \succcurlyeq \mathcal{P}_t,
+\end{equation}
+meaning every cell of $\mathcal{P}_t$ is a union of cells of $\mathcal{P}_{t+1}$. Each cell $B$ is a subcontractible prediction task: work within a cell cannot (yet) be routed differently across its parts.
+
+At date $t$ there is a set of available models $\mathcal{M}_t$. We maintain throughout:
+
+\begin{assumption}
+\label{ass:models}
+(i) $\mathcal{M}_t$ is finite for each $t$, and $\mathcal{M}_t \subseteq \mathcal{M}_{t+1}$ (technologies, once available, remain available).
+(ii) Each model $m$ has a measurable productivity function $\theta_m : \Omega \to (0, \bar\theta\,]$, bounded above, assigning to each microtask the \emph{effective predictive effort} contributed per token of $m$. At date $t$, each $\theta_m$ is $\mathcal{P}_t$-measurable (constant on cells), so that $\theta_m(B)$ is well defined; refinement of the partition may reveal within-cell variation in productivity at later dates.
+(iii) $\phi : [0,\infty) \to [0,\infty)$ is continuously differentiable with $\phi(0) = 0$, $\phi' > 0$, $\phi'' < 0$.
+\end{assumption}
+
+\begin{remark}[What a token is]
+\label{rem:token}
+Throughout, a \emph{token} means a standardized unit of compute \emph{cost}---dollar-denominated at prevailing prices---not a vendor-specific text token. Without this normalization, PnL per token is not economically comparable across models: a model with cheap tokens and a model with expensive tokens cannot be ranked by counting tokens. Likewise, \emph{PnL} means expected trading gain under a fixed capital, risk, and execution protocol common to all models; otherwise raw PnL can be manipulated by position sizing rather than by predictive skill.
+\end{remark}
+
+Let $q_{mB} \ge 0$ be the density of tokens of model $m$ assigned to task $B$. Total effective effort on $B$ is
+\begin{equation}
+z_B = \sum_{m} \theta_m(B)\, q_{mB},
+\end{equation}
+and the expected trading gain from task $B$ is $\mu(B)\,\phi(z_B)$. The concavity of $\phi$ is economically important: it says that a prediction opportunity contains finite alpha. As more predictive computation attacks the same opportunity, its marginal value falls.
+
+Total expected trading gain is therefore
+\begin{equation}
+\label{eq:V}
+V(q) = \sum_{B \in \mathcal{P}_t} \mu(B)\, \phi\!\left( \sum_m \theta_m(B)\, q_{mB} \right).
+\end{equation}
+Suppose there are $K$ standardized units of computation available:
+\begin{equation}
+\label{eq:budget}
+\sum_B \mu(B) \sum_m q_{mB} = K.
+\end{equation}
+
+Computational agents are \emph{itinerant}: at zero switching cost they may move from one prediction task to another, and they may instantiate whichever available algorithm they choose.
+
+\section{Competitive equilibrium}
+\label{sec:equilibrium}
+
+An infinitesimal token of model $m$ placed on task $B$ creates marginal expected trading gain
+\begin{equation}
+\label{eq:return}
+r_{mB} = \frac{\partial V}{\partial\, [\mu(B)\, q_{mB}]} = \theta_m(B)\, \phi'(z_B).
+\end{equation}
+This is precisely a marginal PnL-per-token quantity.
+
+\begin{definition}[Competitive equilibrium]
+A competitive equilibrium is an allocation $q^*$ satisfying the budget constraint \eqref{eq:budget} together with a return $\lambda > 0$ such that
+\begin{align}
+q^*_{mB} > 0 &\;\Longrightarrow\; \theta_m(B)\, \phi'(z^*_B) = \lambda, \label{eq:eq1}\\
+q^*_{mB} = 0 &\;\Longrightarrow\; \theta_m(B)\, \phi'(z^*_B) \le \lambda. \label{eq:eq2}
+\end{align}
+\end{definition}
+
+The interpretation is immediate. If a token currently earns less than $\lambda$, it moves elsewhere. If some unused model--task pair offers more than $\lambda$, an itinerant algorithm moves into it. Hence, in equilibrium,
+\begin{center}
+\emph{marginal PnL per token is equalized across all active uses of compute.}
+\end{center}
+This is not an imposed objective function. It is the no-arbitrage condition generated by mobility.
+
+Existence follows because the routing game admits the potential $V(q)$: with $\mathcal{M}_t$ finite (Assumption~\ref{ass:models}(i)), maximizing the continuous concave function \eqref{eq:V} over the compact compute simplex \eqref{eq:budget} yields exactly the first-order conditions \eqref{eq:eq1}--\eqref{eq:eq2}, with $\lambda$ the Lagrange multiplier on the compute constraint. Thus the competitive and efficient allocations coincide, and $\lambda$ is the shadow price of compute.
+
+\begin{remark}[Equalization makes the realized marginal statistic uninformative among survivors]
+\label{rem:uninformative}
+Conditions \eqref{eq:eq1}--\eqref{eq:eq2} cut both ways. Every surviving model--task pair earns \emph{the same} marginal PnL per token, namely $\lambda$. Realized marginal PnL per token therefore cannot rank active technologies against one another: in equilibrium it measures the economy-wide scarcity of compute, not the quality of any model. What governs selection is the \emph{counterfactual} return schedule
+\begin{equation}
+\label{eq:counterfactual}
+r_{mB}(z) = \theta_m(B)\, \phi'(z),
+\end{equation}
+which compares models on the same task \emph{at the same congestion state} $z$. For fixed $z$, the ranking of \eqref{eq:counterfactual} across $m$ coincides with the ranking of $\theta_m(B)$, and it is $\theta_m(B)$---task-conditional marginal productivity per standardized compute unit---that determines who executes the work (Proposition~\ref{prop:displacement} below). The shadow price $\lambda$ and the selection object $\theta_m(B)$ must not be conflated; Section~\ref{sec:measure} returns to the empirical consequences.
+\end{remark}
+
+\section{Displacement within a subtask}
+\label{sec:displacement}
+
+Define the best technological productivity available on task $B$ at date $t$,
+\begin{equation}
+\theta^*(B) = \max_{m \in \mathcal{M}_t} \theta_m(B).
+\end{equation}
+
+\begin{proposition}[Competitive displacement]
+\label{prop:displacement}
+Suppose the maximizer of $\theta_m(B)$ over $\mathcal{M}_t$ is unique and equals $m^*$. Then in any competitive equilibrium in which task $B$ is actively supplied,
+\begin{equation}
+q^*_{mB} = 0 \qquad \text{for every } m \neq m^*.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Suppose some inferior model $m$ were active on $B$. Then by \eqref{eq:eq1},
+\begin{equation}
+\theta_m(B)\, \phi'(z_B) = \lambda.
+\end{equation}
+But $\theta_{m^*}(B) > \theta_m(B)$, so
+\begin{equation}
+\theta_{m^*}(B)\, \phi'(z_B) > \lambda.
+\end{equation}
+An itinerant unit of compute can therefore increase its return by switching to $m^*$ on the same task, contradicting \eqref{eq:eq2}.
+\end{proof}
+
+\begin{remark}[Ties]
+\label{rem:ties}
+If several models tie at $\theta^*(B)$, equilibrium pins down the total effective effort $z_B$ and hence the total compute on $B$, but not its division among the tied models: any split among frontier models is an equilibrium, and models strictly below the tie still receive zero. Ties therefore leave shares indeterminate without disturbing the displacement of strictly inferior technologies. This indeterminacy matters for the limiting results of Section~\ref{sec:limit}, where frontier membership with ties is necessary but not sufficient for positive share.
+\end{remark}
+
+Hence the prediction supply chain selects the \emph{upper productivity envelope} $\theta^*(B) = \max_m \theta_m(B)$. An inferior technology is not merely ranked below a better technology: it receives zero execution share once the superior substitute is freely available. That is crowding out.
+
+\subsection{Competition across problems}
+
+After technological selection within each subtask, let $q_B = \sum_m q_{mB}$ be the compute assigned to $B$. Because only the frontier technology survives, $z_B = \theta^*(B)\, q_B$, and its marginal return is $\theta^*(B)\, \phi'\!\left(\theta^*(B)\, q_B\right)$. Consequently every actively supplied prediction problem satisfies
+\begin{equation}
+\label{eq:cross}
+\theta^*(B)\, \phi'\!\left( \theta^*(B)\, q_B \right) = \lambda.
+\end{equation}
+
+There are thus two simultaneous equilibrium mechanisms:
+\begin{itemize}[itemsep=2pt]
+\item \emph{within tasks:} better technologies displace worse technologies;
+\item \emph{across tasks:} itinerant compute moves until marginal returns equalize.
+\end{itemize}
+Both operate on marginal economic return per unit of compute.
+
+\section{An explicit equilibrium}
+\label{sec:explicit}
+
+Take $\phi(z) = \log(1+z)$, so that $\phi'(z) = 1/(1+z)$. An active task then satisfies
+\begin{equation}
+\frac{\theta^*(B)}{1 + \theta^*(B)\, q_B} = \lambda,
+\end{equation}
+which solves to
+\begin{equation}
+\label{eq:qB}
+q_B = \pos*{ \frac{1}{\lambda} - \frac{1}{\theta^*(B)} }.
+\end{equation}
+The equilibrium value of compute is determined by market clearing,
+\begin{equation}
+\label{eq:clearing}
+K = \sum_B \mu(B) \pos*{ \frac{1}{\lambda} - \frac{1}{\theta^*(B)} }.
+\end{equation}
+The right-hand side is continuous and strictly decreasing in $\lambda$ on the relevant range, so the equilibrium $\lambda$ is unique. Equations \eqref{eq:qB}--\eqref{eq:clearing} constitute an explicit competitive equilibrium for a population of itinerant algorithms; the allocation \eqref{eq:qB} is the familiar water-filling solution. A task is active precisely when $\theta^*(B) > \lambda$.
+
+\begin{remark}[Elastic compute supply]
+If instead compute is elastically supplied at dollar cost $c$ per token, set $\lambda = c$. Entry then occurs until
+\begin{equation}
+\theta^*(B)\, \phi'\!\left( \theta^*(B)\, q_B \right) = c,
+\end{equation}
+which is the usual zero-economic-profit boundary.
+\end{remark}
+
+\section{Why subdivision occurs}
+\label{sec:subdivision}
+
+Now introduce a general contractor. The contractor receives the root problem $\Omega$. At date $t$ it may use any partition no finer than $\mathcal{P}_t$, and it may execute a cell itself or subcontract it to another model. Assume zero contracting, communication, and switching costs.
+
+Some care is required to show that refinement helps. It is \emph{not} enough to assert that a coarse plan can be replicated cell by cell: absent structure, the parent-cell production function $\mu(B)\,\phi(\theta_m(B)\,q)$ need bear no relation to the childrens' aggregate $\sum_i \mu(B_i)\,\phi(\theta_m(B_i)\,q)$. The clean route is the microfoundation of Assumption~\ref{ass:models}(ii): productivities are defined on primitive microtasks $x \in \Omega$, and a partition merely \emph{restricts the allocation rule}. Formally, at date $t$ the contractor chooses token densities $q_m : \Omega \to [0,\infty)$ constrained to be $\mathcal{P}_t$-measurable (constant on each cell), and value is
+\begin{equation}
+\label{eq:microV}
+V(q) = \int_\Omega \phi\!\left( \sum_m \theta_m(x)\, q_m(x) \right) \mu(dx),
+\qquad
+\int_\Omega \sum_m q_m(x)\, \mu(dx) = K.
+\end{equation}
+Because $\theta_m$ is itself $\mathcal{P}_t$-measurable at date $t$, \eqref{eq:microV} coincides with the cell formulation \eqref{eq:V} on $\mathcal{P}_t$-measurable allocations; and a $\mathcal{P}_t$-measurable allocation is automatically $\mathcal{P}_{t+1}$-measurable.
+
+\begin{lemma}[Refinement monotonicity]
+\label{lem:monotone}
+Refinement weakly expands the feasible set of allocation rules; hence the optimal values satisfy $V^*_{t+1} \ge V^*_t$.
+\end{lemma}
+
+\begin{proof}
+Any $\mathcal{P}_t$-measurable allocation is $\mathcal{P}_{t+1}$-measurable, so the date-$t$ feasible set is contained in the date-$(t{+}1)$ feasible set, and the supremum of \eqref{eq:microV} cannot fall.
+\end{proof}
+
+\begin{proposition}[Strict value of refinement]
+\label{prop:strict}
+Suppose the date-$(t{+}1)$ optimum assigns strictly positive compute to two children $B_1, B_2 \subset B$ of some date-$t$ cell, with distinct unique frontier suppliers $m_1 \neq m_2$. Then $V^*_{t+1} > V^*_t$.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{prop:displacement} applied at date $t{+}1$, the date-$(t{+}1)$ optimum runs $m_1$ exclusively on $B_1$ and $m_2$ exclusively on $B_2$, with positive compute on each; its allocation is therefore not constant on $B$ and so is not $\mathcal{P}_t$-measurable. Since $V$ is strictly concave in the effective-effort profile and the date-$(t{+}1)$ optimum is unique in that profile, no $\mathcal{P}_t$-measurable allocation attains $V^*_{t+1}$.
+\end{proof}
+
+Note the two qualifications built into Proposition~\ref{prop:strict}: the children must have \emph{different} best suppliers, and both must \emph{optimally receive compute}. Children whose optimal allocation is zero (because $\theta^*$ falls below the shadow price there) contribute no strict gain, however different their frontiers.
+
+This gives a precise meaning to increasing division of labor:
+\begin{center}
+\emph{subdivision occurs because it allows finer matching of technologies to comparative advantage.}
+\end{center}
+A capable large model should therefore subcontract work whenever another technology lies above it on the relevant productivity frontier.
+
+\section{An explicit generalist-extinction example}
+\label{sec:extinction}
+
+We now construct an example in which raw capability and economic productivity point in opposite directions. To do so we need a bridge between the two, and it is worth being explicit that this bridge is a modelling choice, not a consequence of the production economy. Let $b_m \in (0,1)$ denote a model's raw success probability on a task---a pedagogical notion of ``capability''---and let $c_m$ denote its compute cost per unit of work in standardized tokens (Remark~\ref{rem:token}). Suppose the economic value created by a unit of work is some increasing function $v(\cdot)$ of the success probability, so that productivity is
+\begin{equation}
+\label{eq:bridge}
+\theta_m = \frac{v(b_m)}{c_m}.
+\end{equation}
+Nothing below depends on the shape of $v$ beyond monotonicity: the example requires only
+\begin{equation}
+\label{eq:robust}
+b_G > b_S
+\qquad\text{and}\qquad
+\frac{v(b_G)}{c_G} < \frac{v(b_S)}{c_S},
+\end{equation}
+that is, the generalist is more capable while the specialist creates more value per token. Accuracy need not convert linearly into trading value---calibration, latency, and downstream execution all intervene---and \eqref{eq:robust} is robust to any such increasing conversion, provided the cost gap outweighs the capability gap after conversion.
+
+For concreteness take $v(b) = b$. Let the general model $G$ have raw success probability $b_G = 0.99$ on every task and cost $c_G = 4$ tokens per standardized unit of work, so
+\begin{equation}
+\theta_G = \frac{0.99}{4} = 0.2475.
+\end{equation}
+Introduce narrow specialist models $S_k$, each \emph{less capable}, $b_{S_k} = 0.95 < 0.99$, but costing only one token, $c_{S_k} = 1$, so $\theta_{S_k} = 0.95$. Thus, wherever a specialist can operate,
+\begin{equation}
+b_G > b_{S_k}
+\qquad \text{but} \qquad
+\theta_G < \theta_{S_k}:
+\end{equation}
+higher raw ability, lower economic productivity, exactly the configuration \eqref{eq:robust}.
+
+Let the division of labor evolve as follows. At date $t$, expose the subtasks
+\begin{equation}
+I_k = \left( 2^{-k},\, 2^{-k+1} \right], \qquad k = 1, \ldots, t,
+\end{equation}
+together with the unresolved residual
+\begin{equation}
+R_t = \left[ 0,\, 2^{-t} \right].
+\end{equation}
+Specialist $S_k$ can perform only $I_k$; the generalist can perform everything. Note $\mu(R_t) = 2^{-t}$.
+
+By Proposition~\ref{prop:displacement}, every exposed specialist task $I_k$ is performed entirely by $S_k$. The generalist performs only the unspecialized residual $R_t$, so its execution domain satisfies
+\begin{equation}
+\mu(R_t) = 2^{-t} \longrightarrow 0.
+\end{equation}
+Raw ability has not changed---$0.99 > 0.95$ at every date---and yet the more capable model is progressively removed from production.
+
+\section{Compute shares in the explicit equilibrium}
+\label{sec:shares}
+
+The result is stronger than merely saying that the measure of the generalist's task set vanishes: the generalist's share of executed \emph{compute} also vanishes.
+
+Let total compute be $K = 4$ and retain $\phi(z) = \log(1+z)$. Write $u_t = 2^{-t}$. Specialists occupy measure $1 - u_t$ with productivity $\theta_S = 0.95$, while the residual generalist domain has measure $u_t$ with productivity $\theta_G = 0.2475$. Because both regions are active, market clearing \eqref{eq:clearing} requires
+\begin{equation}
+4 = (1 - u_t) \left( \frac{1}{\lambda_t} - \frac{1}{0.95} \right)
+  + u_t \left( \frac{1}{\lambda_t} - \frac{1}{0.2475} \right),
+\end{equation}
+and therefore
+\begin{equation}
+\lambda_t = \frac{1}{\,4 + (1-u_t)/0.95 + u_t/0.2475\,}.
+\end{equation}
+
+The amount of compute actually running the general model is
+\begin{equation}
+Q_{G,t} = u_t \left( \frac{1}{\lambda_t} - \frac{1}{0.2475} \right).
+\end{equation}
+Substituting for $\lambda_t$,
+\begin{equation}
+Q_{G,t}
+= u_t \left[\, 4 + (1 - u_t) \left( \frac{1}{0.95} - \frac{1}{0.2475} \right) \right]
+\approx u_t \left( 1.0122 + 2.9878\, u_t \right).
+\end{equation}
+Hence $Q_{G,t} \longrightarrow 0$, and since total compute is $K = 4$,
+\begin{equation}
+\frac{Q_{G,t}}{K} \longrightarrow 0.
+\end{equation}
+The large model's \emph{actual compute market share tends to zero}, despite the model remaining strictly superior in raw capability to every specialist. That is a genuine equilibrium result about market share, not merely a statement about task measure.
+
+\section{Limiting results on survival}
+\label{sec:limit}
+
+Let $G$ be a generalist. At date $t$, with available model set $\mathcal{M}_t$, define its (weak) frontier set
+\begin{equation}
+E_t = \left\{ x \in \Omega : \theta_G(x) \ge \max_{m \in \mathcal{M}_t} \theta_m(x) \right\}.
+\end{equation}
+Since $\mathcal{M}_t \subseteq \mathcal{M}_{t+1}$ (Assumption~\ref{ass:models}(i)), the maximum on the right is nondecreasing in $t$, so $E_{t+1} \subseteq E_t$ and $E_t \downarrow E_\infty$, where
+\begin{equation}
+E_\infty = \left\{ x \in \Omega : \theta_G(x) \ge \sup_{m \in \mathcal{M}_\infty} \theta_m(x) \right\},
+\qquad \mathcal{M}_\infty = \bigcup_t \mathcal{M}_t.
+\end{equation}
+By continuity of measure from above, $\mu(E_t) \to \mu(E_\infty)$.
+
+By Proposition~\ref{prop:displacement} and Remark~\ref{rem:ties}, at each date the generalist executes work only on $E_t$: off $E_t$ some model is strictly better and $G$ receives zero. Writing $q_{G,t}(\cdot)$ for its equilibrium token density and $Q_{G,t} = \int_{E_t} q_{G,t}\, d\mu$ for its executed compute, we obtain the extinction direction immediately.
+
+\begin{theorem}[Extinction]
+\label{thm:extinction}
+Suppose specialists eventually dominate the generalist strictly almost everywhere,
+\begin{equation}
+\sup_{m \in \mathcal{M}_\infty} \theta_m(x) > \theta_G(x) \qquad \text{for a.e. } x,
+\end{equation}
+so that $\mu(E_\infty) = 0$, and suppose equilibrium token intensities are uniformly bounded, $q_{G,t}(x) \le \bar q$ for all $t, x$. Then
+\begin{equation}
+Q_{G,t} \;\le\; \bar q\, \mu(E_t) \;\longrightarrow\; 0.
+\end{equation}
+\end{theorem}
+
+The converse direction requires strictly more than frontier membership ``somewhere,'' and it is worth recording why the naive converse is false. Membership of the frontier on a \emph{measure-zero} set supports no compute. Membership on a positive-measure set is still insufficient if those tasks are \emph{inactive}---if $\theta_G \le \lambda_t$ there, water-filling \eqref{eq:qB} assigns them nothing. And by Remark~\ref{rem:ties}, frontier membership \emph{with ties} is compatible with an equilibrium selection that gives $G$ zero share everywhere. A correct sufficient condition must therefore bound the frontier margin, the activity margin, and the measure simultaneously.
+
+\begin{theorem}[Survival]
+\label{thm:survival}
+Suppose there exist $\varepsilon > 0$ and $\delta > 0$ such that for all $t$ the set
+\begin{equation}
+F_t = \left\{ x \in \Omega :\;
+\theta_G(x) \ge \max_{m \in \mathcal{M}_t \setminus \{G\}} \theta_m(x) + \varepsilon
+\;\text{ and }\;
+\theta_G(x)\, \phi'(0) \ge \lambda_t + \varepsilon
+\right\}
+\end{equation}
+satisfies $\mu(F_t) \ge \delta$. Then $Q_{G,t}$ is bounded away from zero: there exists $\eta > 0$, depending only on $\varepsilon$, $\delta$, $\bar\theta$, and $\phi$, with $Q_{G,t} \ge \eta$ for all $t$.
+\end{theorem}
+
+\begin{proof}
+On $F_t$ the generalist is the unique frontier technology, so by Proposition~\ref{prop:displacement} it performs all executed work there. The activity condition $\theta_G(x)\,\phi'(0) \ge \lambda_t + \varepsilon$ makes the marginal return of the first token strictly exceed the shadow price, so equilibrium compute on such a cell is strictly positive and satisfies $\theta_G(x)\, \phi'\!\big(\theta_G(x)\, q(x)\big) = \lambda_t \le \theta_G(x)\,\phi'(0) - \varepsilon$. Since $\phi'$ is continuous and strictly decreasing and $\theta_G \le \bar\theta$, this forces $q(x) \ge q_{\min}(\varepsilon, \bar\theta, \phi) > 0$ uniformly on $F_t$. Hence $Q_{G,t} \ge \delta\, q_{\min} = \eta$.
+\end{proof}
+
+Between Theorems~\ref{thm:extinction} and~\ref{thm:survival} there is a genuine gap---vanishing frontier margins, ties, and sets of vanishing measure occupy the boundary---and we do not claim an if-and-only-if characterization. The economically robust summary is: \emph{positive asymptotic execution share requires a positive-measure, strictly active set on which the model is selected from the productivity frontier; and if that set vanishes in measure while token intensities stay bounded, so does the model's compute share.}
+
+\begin{remark}[Allocation conditional on arrival, not a theory of arrival]
+\label{rem:conditional}
+Time in this model indexes an exogenously finer partition and an exogenously growing model set. There is no investment, entry decision, innovation, learning, or fixed development cost, and Theorem~\ref{thm:extinction} \emph{assumes} the decisive future event---that specialists eventually dominate almost everywhere. The results are therefore limiting \emph{allocation} theorems conditional on technological arrival; they predict who executes the work once technologies exist, not which technologies will come to exist. A dynamic version, in which the profits identified here fund specialist entry against fixed costs, would be needed to make ``future survival'' an equilibrium outcome rather than an assumption, and is left for future work.
+\end{remark}
+
+Within its stated scope, the conclusion stands: technological survival in production is determined by whether a model remains on the \emph{active economic productivity frontier over a non-negligible part of the limiting division of labor}. It is not determined by whether it remains the most generally capable model.
+
+\section{The large model as manager: an interpretation}
+\label{sec:manager}
+
+None of this implies that capable large models disappear. It suggests something subtler: their comparative advantage may move upward in the production hierarchy.
+
+Decomposition itself is a task. So are: deciding what should be delegated; choosing specialists; integrating their outputs; verification; conflict resolution; and handling genuinely difficult residual cases. If orchestration is modelled as simply another cell $O$ of the task space, then the large model survives as orchestrator precisely if its orchestration value per token lies on the corresponding productivity frontier---but stated that way the claim is an application of Proposition~\ref{prop:displacement}, close to tautological, and we present it as interpretation rather than as a result.
+
+The honest gap is that in the present model, decomposition and routing are free and exogenous: the partition $\mathcal{P}_t$ arrives, and nothing in the technology requires an orchestrator at all. A genuine manager theorem would put decomposition, routing, verification, and aggregation \emph{inside} the production function---as complementary inputs whose required quantity grows with the fineness of the division of labor---and would then show that increasing specialization raises the derived demand for the orchestration complement. That extension would deliver, rather than assume, the prediction that frictionless subcontracting transforms a sufficiently capable general model from worker into manager. We record it as the natural next step.
+
+\section{What PnL per token does and does not measure}
+\label{sec:measure}
+
+The model identifies the survival-relevant quantity: task-conditional marginal economic productivity per standardized unit of compute, $\theta_m(x)$, or equivalently the counterfactual marginal return schedule
+\begin{equation}
+r_{m}(x, z) = \theta_m(x)\, \phi'(z)
+\end{equation}
+compared across models at a \emph{common} task $x$ and congestion state $z$. Selection operates on this object: a model offering a strictly smaller counterfactual return on a subcontractible task receives zero execution share (Proposition~\ref{prop:displacement}), and asymptotic survival is governed by membership of the active frontier (Theorems~\ref{thm:extinction}--\ref{thm:survival}).
+
+Two distinct statistics must not be confused with it.
+
+\subsection{Realized marginal PnL per token is equalized, hence uninformative}
+
+By \eqref{eq:eq1}, every surviving model--task pair earns exactly $\lambda$. An econometrician observing realized marginal returns among active technologies sees a flat cross-section: the statistic identifies the shadow price of compute, not relative model quality (Remark~\ref{rem:uninformative}). Differences in $\theta$ show up not in survivors' realized returns but in \emph{who survives where and how much compute they absorb}---quantities, not prices.
+
+\subsection{Average PnL per token can invert the true ranking}
+
+Nor is aggregate PnL divided by aggregate tokens an estimate of the marginal object. On a single task, suppressing $\mu$, the average and marginal products of compute run through the frontier technology are
+\begin{equation}
+AP(q) = \frac{\phi(\theta q)}{q},
+\qquad
+MP(q) = \theta\, \phi'(\theta q),
+\end{equation}
+and concavity gives $AP(q) > MP(q)$ for all $q > 0$, with the wedge growing in $q$. The wedge is not innocuous: it can \emph{reverse rankings}. With $\phi(z) = \log(1+z)$, take a superior technology $A$ with $\theta_A = 2$ run at scale $q_A = 100$, and an inferior technology $B$ with $\theta_B = 1$ run at $q_B = 1$. Then
+\begin{equation}
+AP_A = \frac{\log 201}{100} \approx 0.053,
+\qquad
+AP_B = \log 2 \approx 0.693,
+\end{equation}
+so the average statistic ranks the technology with \emph{half} the productivity an order of magnitude higher, purely because $A$ is deployed deep into its diminishing-returns region. Lifetime PnL over lifetime tokens confounds technology with allocation: congestion and task mix enter the ratio on equal terms with $\theta$.
+
+\subsection{What is a valid estimate}
+
+The empirical object that does estimate the theory's selection variable is the \emph{incremental} return
+\begin{equation}
+\frac{\Delta \PnL}{\Delta T},
+\end{equation}
+measured under the following disciplines, each mandated by a piece of the model:
+\begin{enumerate}[itemsep=2pt]
+\item \emph{Small increments.} $\Delta T$ small relative to deployed scale, so that the ratio approximates $MP$, not $AP$.
+\item \emph{Matched task.} Both models evaluated on the same task cell $B$ (task-conditionality of $\theta_m(B)$).
+\item \emph{Matched congestion.} Evaluations at a common effective-effort state $z_B$, since the comparison object \eqref{eq:counterfactual} holds $z$ fixed; comparing a model attacking a crowded opportunity with one attacking a fresh opportunity measures crowding, not technology.
+\item \emph{Standardized compute and PnL.} Tokens denominated in compute cost, and PnL generated under a fixed capital, risk, and execution protocol (Remark~\ref{rem:token}).
+\end{enumerate}
+Under these conditions $\Delta\PnL/\Delta T \approx \theta_m(B)\,\phi'(z_B)$, and comparisons across models at matched $(B, z_B)$ recover the ranking of $\theta_m(B)$---the ranking that determines execution. An aggregate league-table statistic---total PnL over total tokens across heterogeneous tasks and deployment scales---satisfies none of the four conditions and may order models arbitrarily badly with respect to survival.
+
+\subsection{The central claim, precisely stated}
+
+Raw capability has none of the relevant equilibrium properties. A model can have $b_G(x) > b_S(x)$ everywhere and nevertheless lie strictly below the productivity frontier everywhere, as in Section~\ref{sec:extinction}; with sufficiently fine subdivision, the frontier comparison determines who executes the work.
+
+The claim this paper establishes is therefore \emph{not} that observed PnL per token determines technological survival. It is:
+\begin{center}
+\emph{Survival is determined by task-conditional relative marginal economic productivity per standardized unit of compute; and incremental PnL per unit of compute cost, evaluated on comparable tasks at a common congestion state, is an empirical estimate of exactly that productivity.}
+\end{center}
+This sharper statement is also the more useful one, because it says when a PnL-per-token league table is a valid fitness measure and when it is contaminated---by allocation, by task mix, by congestion, or by non-standardized compute. For technological survival, the economically fundamental question is not \emph{how capable is the model?} but \emph{on what part of an increasingly subdivided production chain does this model remain the highest-value use of compute?}
+
+\end{document}
