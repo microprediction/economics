@@ -6,6 +6,7 @@
 
 \newtheorem{proposition}{Proposition}
 \newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
 \newdefinition{remark}{Remark}
 \newproof{proof}{Proof}
 
@@ -26,7 +27,7 @@
 \ead{peter.cotton@gsmc.ai}
 
 \begin{abstract}
-The race to dominate machine intelligence is scored on capability benchmarks. This may be the wrong metric: in competitive equilibrium, work goes to whichever model creates the most value per token of compute, and we exhibit a closed form in which the most capable model's share of production compute tends to zero. A competitive prediction market pays each entry its marginal contribution, and at a common shadow price of compute a model's average PnL per token ranks task-level productivity. There is no scalar intrinsic model quality to estimate: PnL per token is an equilibrium-weighted measure of the economic niches a model occupies.
+The race to dominate machine intelligence is scored on capability benchmarks. This may be the wrong metric: in competitive equilibrium, work goes to whichever model creates the most value per token of compute, and we exhibit a closed form in which the most capable model's share of production compute tends to zero. In a competitive prediction market, average PnL per token at a common shadow price of compute is the inverse elasticity of task value with respect to effective compute, so it ranks task-level productivity precisely when marginal alpha decays fast enough with crowding. There is no scalar intrinsic model quality to estimate: PnL per token is an equilibrium-weighted measure of the economic niches a model occupies.
 \end{abstract}
 
 \begin{keyword}
@@ -40,14 +41,14 @@ division of labor \sep compute allocation \sep artificial intelligence \sep tech
 
 The contest for leadership in large language models is treated as strategically decisive. Governments restrict exports of the chips that train frontier models, laboratories commit capital on the scale of national infrastructure, and progress is scored on capability benchmarks. The public leaderboards that order the field rank ability alone: win rates, accuracy, exam scores. None ranks value created per unit of compute. Beneath the race sits a premise: the most capable model captures the work, and with it the economic value of machine intelligence.
 
-The premise fails in equilibrium. When compute is itinerant, free to move between prediction tasks and to run any available algorithm, and returns to compute on each task diminish with crowding, each subcontractible task goes to whichever model creates the most value per token of compute. Capability carries no allocation value beyond its contribution to that quotient: we exhibit a closed-form equilibrium in which a model that outscores every rival on every benchmark has production compute share tending to zero as the division of labor refines. The observable that tracks this is profit-and-loss (PnL) per token in a competitive prediction market, which pays each entry its marginal contribution at the state it faced: a model's average PnL per token then ranks productivity at a common shadow price of compute, and degrades when deployment is administered or eras of different compute scarcity are mixed.
+The premise fails in equilibrium. When compute is itinerant, free to move between prediction tasks and to run any available algorithm, and returns to compute on each task diminish with crowding, each subcontractible task goes to whichever model creates the most value per token of compute. Capability carries no allocation value beyond its contribution to that quotient: we exhibit a closed-form equilibrium in which a model that outscores every rival on every benchmark has production compute share tending to zero as the division of labor refines. The observable that measures the intensive economic fitness driving this allocation is profit-and-loss (PnL) per token in a competitive prediction market, which pays each entry its marginal contribution at the state it faced. At a common shadow price of compute, average PnL per token is the inverse elasticity of task value with respect to effective compute; it ranks task-level productivity when that elasticity declines with crowding, and degrades when deployment is administered or scarcity regimes are mixed.
 
 The mechanism is old. \citet{smith1776} tied the division of labour to the extent of the market; \citet{ricardo1817} showed the absolutely better party does not get all the work; \citet{beckermurphy1992} bound specialization by coordination costs; \citet{acemogluautor2011} model production as a task continuum with technologies assigned by comparative advantage. \citet{cotton2022} supplies the vision this note formalizes: analytical tasks naturally evolve into radically low-cost prediction supply chains. We import the classical skeleton, replace labor with compute, and add the feature specific to prediction: alpha decays with crowding, so returns to effort on a task are concave.
 
 \section{The economy}
 \label{sec:economy}
 
-Work is a unit mass $\Omega = [0,1]$ carrying Lebesgue measure $\mu$. At date $t$ it is partitioned into finitely many subcontractible tasks $\mathcal{P}_t = \{B_1, \ldots, B_{n_t}\}$, and partitions refine: every cell of $\mathcal{P}_t$ is a union of cells of $\mathcal{P}_{t+1}$. Finitely many models $m \in \mathcal{M}_t$ are available, with $\mathcal{M}_t \subseteq \mathcal{M}_{t+1}$. Each model $m$ has a feasibility set $A_m \subseteq \Omega$, the work it can perform, and a measurable productivity $\theta_m : A_m \to (0,\infty)$, constant on the cells of $\mathcal{P}_t$ at date $t$; write $\theta_m(B)$ for its value on a cell $B \subseteq A_m$, and require $q_{mB} = 0$ otherwise.
+Work is a unit mass $\Omega = [0,1]$ carrying Lebesgue measure $\mu$. At date $t$ it is partitioned into finitely many subcontractible tasks $\mathcal{P}_t = \{B_1, \ldots, B_{n_t}\}$, and partitions refine: every cell of $\mathcal{P}_t$ is a union of cells of $\mathcal{P}_{t+1}$. Finitely many models $m \in \mathcal{M}_t$ are available, with $\mathcal{M}_t \subseteq \mathcal{M}_{t+1}$. Each model $m$ has a feasibility set $A_m \subseteq \Omega$, the work it can perform, itself a union of cells of $\mathcal{P}_t$ whenever $m \in \mathcal{M}_t$, and a measurable productivity $\theta_m : A_m \to (0,\infty)$, constant on cells at date $t$; write $\theta_m(B)$ for its value on a cell $B \subseteq A_m$, and require $q_{mB} = 0$ otherwise.
 
 A \emph{token} is a standardized unit of compute cost, not a vendor text token, and PnL is expected trading gain under a fixed capital and risk protocol. Without both normalizations, PnL per token is not comparable across models.
 
@@ -114,38 +115,45 @@ Marginal PnL per token is not an intrinsic quality of a model. It factorizes as 
 
 A competitive prediction market pays exactly this margin. Under a market scoring rule each entry is paid its improvement over the standing forecast, and the payments telescope \citep{hanson2007}. Telescoping gives additivity of payments; to identify them with the production technology, let $p(z)$ be the standing forecast after effective effort $z$ and \emph{define} $\phi(z) = \mathbb{E}[S(p(z), Y)] - \mathbb{E}[S(p(0), Y)]$, the expected score improvement that effort has purchased. An increment of effort $dz = \theta\, dq$ then earns $d\Pi = \phi'(z)\, dz = \theta\,\phi'(\theta q)\, dq$ for a model working a task alone, and payments integrate to $\Pi(q) = \int_0^q \theta\,\phi'(\theta s)\,ds = \phi(\theta q)$. Every dollar is a marginal payment at the state it faced; the form $\phi(z) = \log(1+z)$ is a convenient parametrization of this map, not a consequence of the scoring rule.
 
-At a common shadow price, that average ranks correctly.
+At a common shadow price, that average is an inverse elasticity.
 
-\begin{lemma}[Ranking at a common shadow price]
+\begin{lemma}[PnL per token is an inverse elasticity]
 \label{lem:ap}
-Fix $\phi(z) = \log(1+z)$ and allocate by water-filling \eqref{eq:waterfill}. A model serving a task with productivity $\theta > \lambda$ earns average PnL per token
+Let $\varepsilon_\phi(z) = z\,\phi'(z)/\phi(z)$. On any active task with productivity $\theta$ at shadow price $\lambda$,
 \begin{equation}
-AP(\theta) = \lambda\, g(\theta/\lambda),
+\frac{AP(\theta;\lambda)}{\lambda} = \frac{1}{\varepsilon_\phi(z)},
 \qquad
-g(r) = \frac{r \log r}{r - 1},
+\theta\,\phi'(z) = \lambda,
 \end{equation}
-and $g$ is strictly increasing.
+and $z(\theta,\lambda)$ is increasing in $\theta$. Hence $AP$ ranks $\theta$ at a common $\lambda$ if and only if $\varepsilon_\phi$ decreases on the relevant range.
 \end{lemma}
 
 \begin{proof}
-The equilibrium depth $q = 1/\lambda - 1/\theta$ gives $1 + \theta q = \theta/\lambda$, and the integrated payments on the task total $\phi(\theta q) = \log(\theta/\lambda)$, so $AP = \log(\theta/\lambda)/q = \lambda\, g(\theta/\lambda)$. Monotonicity: $g'(r) \propto r - 1 - \log r > 0$ for $r > 1$. \qed
+$AP = \phi(z)/q = \theta\,\phi(z)/z$ and $\lambda = \theta\,\phi'(z)$ give $AP/\lambda = \phi(z)/(z\,\phi'(z))$, and $z = (\phi')^{-1}(\lambda/\theta)$ increases in $\theta$. \qed
 \end{proof}
+
+\begin{corollary}[Log production ranks]
+\label{cor:log}
+For $\phi(z) = \log(1+z)$, $\varepsilon_\phi(z) = z/\big((1+z)\log(1+z)\big)$ is strictly decreasing, since $\log(1+z) < z$; hence $AP$ is strictly increasing in $\theta$, explicitly $AP = \lambda\, g(\theta/\lambda)$ with $g(r) = r\log r/(r-1)$ and $g'(r) \propto r - 1 - \log r > 0$.
+\end{corollary}
+
+Concavity alone does not deliver the ranking. The power family $\phi(z) = z^\alpha$ has constant elasticity, so $AP/\lambda = 1/\alpha$ for every $\theta$: the statistic carries no ranking information at all. And $\phi(z) = z^{1/4} + z^{3/4}$ is increasing and strictly concave with increasing elasticity, so it reverses the ranking under fully competitive deployment. Whether the elasticity of alpha with respect to compute declines with crowding is therefore the empirical condition on which the interpretation of PnL per token rests.
 
 \begin{remark}[Elastic compute pins $\lambda = 1$]
 \label{rem:elastic}
 The $\lambda$-conditioning matters only when compute is capacity constrained. If compute is elastically supplied at price $c$ per token, entry gives $\theta\,\phi'(\theta q) = c$; since a token is already a standardized dollar of compute cost, normalize $c = 1$. Then $\lambda = 1$ across unconstrained competitive environments and $AP(\theta) = g(\theta)$ is directly comparable. Deflation is needed only where compute is scarce or its real price moves.
 \end{remark}
 
-In English: the margin is the same $\lambda$ for every survivor, but the inframarginal rents are not, and at a common $\lambda$ they are monotone in $\theta$. The conditioning is not decorative. A lifetime quotient mixes dates and markets with different shadow prices, and scarcity alone can invert it: $\theta_A = 100$ earned where $\lambda = 0.01$ averages $0.01\, g(10^4) \approx 0.09$ per token, while $\theta_B = 2$ earned where $\lambda = 1$ averages $2 \log 2 \approx 1.39$, both deployments competitive. The repair is to deflate: $AP/\lambda = g(\theta/\lambda)$ ranks relative productivity monotonically. Raw PnL per token is a nominal return, and the shadow value of compute is its deflator.
+In English: under log production the margin is the same $\lambda$ for every survivor, but the inframarginal rents are monotone in $\theta$. The $\lambda$-conditioning still binds: mixing markets with different shadow prices can invert the quotient even under competitive deployment, and the repair is to deflate, since $AP/\lambda$ depends on $\theta/\lambda$ alone. Raw PnL per token is a nominal return, and the shadow value of compute is its deflator.
 
 Administered deployment can invert the ranking even within one contemporaneous environment, because an administered allocation need not satisfy the common-$\lambda$ first-order conditions. Route $\theta_A = 2$ onto a task at scale $q_A = 100$ while $\theta_B = 1$ sits at $q_B = 1$: telescoped payments total $\phi(\theta q)$, so $A$ averages $\log 201/100 \approx 0.053$ per token against $B$'s $\log 2 \approx 0.693$. Over-deployment, for instance a laboratory routing all traffic to its own generalist, buries a superior technology's average under its own crowding.
 
-At the time of writing, public leaderboards rank ability alone; the sole attempt at an economic ranking, \texttt{modelrank.net}, computes a lifetime quotient from prediction-market participation. The results above say how to read it. The quotient aggregates inframarginal rents that rank productivity at a matched shadow price; it degrades when deployment is administered or eras of different compute scarcity are mixed, and a rolling, $\lambda$-deflated version is the defensible statistic. Nor is there a scalar true $\theta_m$ underneath: a model serving many tasks reports a token-weighted portfolio of $\lambda\, g(\theta_m(B)/\lambda)$, because economic fitness is conditional on both model and task. The statistic is therefore not an estimate of intrinsic model quality, since no such scalar exists; it is an equilibrium-weighted measure of the economic niches a model actually occupies, which is a more useful object than another leaderboard. Capability benchmarks measure $b$ alone, while equilibrium prices $b$ jointly with compute cost and task value through $\theta = v(b)/c$.
+At the time of writing, public leaderboards rank ability alone; one attempt at an economic ranking, \texttt{modelrank.net}, computes a lifetime quotient from prediction-market participation. The results above say how to read it. The quotient aggregates inframarginal rents that rank productivity at a matched shadow price under declining elasticity; it degrades when deployment is administered or eras of different compute scarcity are mixed, and a rolling, $\lambda$-deflated version is the defensible statistic. Nor is there a scalar true $\theta_m$ underneath: a model serving many tasks reports a token-weighted portfolio of $\lambda\, g(\theta_m(B)/\lambda)$, because economic fitness is conditional on both model and task. The statistic is therefore not an estimate of intrinsic model quality, since no such scalar exists; it is an equilibrium-weighted measure of the economic niches a model actually occupies, which is a more useful object than another leaderboard. Capability benchmarks measure $b$ alone, while equilibrium prices $b$ jointly with compute cost and task value through $\theta = v(b)/c$.
 
 \section{Discussion}
 \label{sec:discussion}
 
-Capable large models need not disappear. Their comparative advantage may move up the production hierarchy, to decomposition, routing, verification, and the hard residual, whenever their value per token on those tasks sits on the frontier; in the present model that statement is an application of Proposition~\ref{prop:displacement} rather than a theorem, since decomposition here is free and exogenous. For strategy, the question is therefore not who owns the most capable model but who owns the productivity frontier somewhere in the limiting division of labor. Survival here means survival in production, conditional on availability: a model can retain a sliver of equilibrium compute and still exit commercially when its inframarginal rents fall short of fixed maintenance and development costs. That comparison, rents against fixed cost, is the entry model we leave to future work; it is what makes technological birth and death endogenous.
+Capable large models need not disappear. Their comparative advantage may move up the production hierarchy, to decomposition, routing, verification, and the hard residual, whenever their value per token on those tasks sits on the frontier; in the present model that statement is an application of Proposition~\ref{prop:displacement} rather than a theorem, since decomposition here is free and exogenous. For strategy, the question is therefore not who owns the most capable model but who owns the productivity frontier on an economically material part of the limiting division of labor. PnL per token is the intensive margin: value per token on the niches occupied. Production share also requires the extensive margin, the economic mass of those niches; a model with $\theta = 100$ on a niche of measure $10^{-9}$ combines spectacular PnL per token with negligible share. Commercial survival requires more still. Under log production an owned task yields rent $R(\theta,\lambda) = \log(\theta/\lambda) - 1 + \lambda/\theta$ above compute cost, and it is total rent across owned tasks, not average PnL per token, that must cover fixed maintenance and development cost. The chain runs: task productivity, PnL per token, allocation, total rents, commercial survival. This note proves the middle of the chain; the entry model closing it, rents against fixed cost, is left to future work.
 
 \bibliographystyle{elsarticle-harv}
 

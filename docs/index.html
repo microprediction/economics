@@ -109,15 +109,17 @@
       lifetime tokens is an average of true marginal payments.
     </p>
     <p>
-      Whether that average ranks models depends on who chose the deployment, and at what
-      scarcity. At a common shadow price of compute it ranks: the average is
-      $\lambda\, g(\theta/\lambda)$ with $g(r) = r \log r/(r-1)$ strictly increasing.
-      Administered deployment can invert the raw quotient &mdash; a superior technology
-      ($\theta = 2$) over-deployed at $q = 100$ averages $0.053$ per token while an inferior
-      one ($\theta = 1$) at $q = 1$ averages $0.693$ &mdash; and so can mixing eras of
-      different compute scarcity, even under competitive deployment. The repair is to deflate
-      by the contemporaneous shadow price: $AP/\lambda = g(\theta/\lambda)$ ranks relative
-      productivity monotonically.
+      Whether that average ranks models depends on who chose the deployment, at what scarcity,
+      and on the shape of the alpha-production function. At a common shadow price the average
+      is an inverse elasticity, $AP/\lambda = 1/\varepsilon_\phi(z)$ where
+      $\varepsilon_\phi(z) = z\phi'(z)/\phi(z)$: log production has declining elasticity, so
+      the average is $\lambda\, g(\theta/\lambda)$ with $g(r) = r \log r/(r-1)$ strictly
+      increasing and the quotient ranks; constant-elasticity production makes it
+      informationless, and increasing elasticity reverses it. Administered deployment can also
+      invert the raw quotient &mdash; a superior technology ($\theta = 2$) over-deployed at
+      $q = 100$ averages $0.053$ per token while an inferior one ($\theta = 1$) at $q = 1$
+      averages $0.693$ &mdash; and so can mixing eras of different compute scarcity. The
+      repair is to deflate by the contemporaneous shadow price.
     </p>
 
     <h2>Read</h2>
