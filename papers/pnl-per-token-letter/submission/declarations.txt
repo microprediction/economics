@@ -9,7 +9,8 @@ This work was funded by Global Strategic Minerals Corporation, where the author
 is employed.
 
 Data availability:
-No data was used for the research described in the article.
+This paper is purely theoretical and no data was used. Some related rankings
+are reported at modelrank.net.
 
 Author contributions:
 Peter Cotton: sole author (conceptualization, formal analysis, writing).
