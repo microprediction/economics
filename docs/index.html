@@ -36,7 +36,7 @@
     <p>
       The paper models prediction as a production economy. Tasks form a partition of a unit mass
       of work that refines over time; compute is <em>itinerant</em>, free to move between tasks
-      and to instantiate any available algorithm; each opportunity holds finite alpha, so returns
+      and to instantiate any available algorithm; marginal alpha declines with crowding, so returns
       to effort are concave. Two equilibrium forces follow. Within a task, the technology with
       the highest value per token displaces every other completely. Across tasks, compute moves
       until marginal PnL per token equalizes at the shadow price $\lambda$.
@@ -109,13 +109,15 @@
       lifetime tokens is an average of true marginal payments.
     </p>
     <p>
-      Whether that average ranks models depends on who chose the deployment. Under competitive
-      deployment it does: the average is $\lambda\, g(\theta/\lambda)$ with
-      $g(r) = r \log r/(r-1)$ strictly increasing, so the lifetime quotient is a valid
-      scoreboard. Administered deployment can invert it: a superior technology ($\theta = 2$)
-      over-deployed at $q = 100$ averages $0.053$ per token while an inferior one
-      ($\theta = 1$) at $q = 1$ averages $0.693$. The quotient is trustworthy exactly insofar
-      as compute picks its own battles.
+      Whether that average ranks models depends on who chose the deployment, and at what
+      scarcity. At a common shadow price of compute it ranks: the average is
+      $\lambda\, g(\theta/\lambda)$ with $g(r) = r \log r/(r-1)$ strictly increasing.
+      Administered deployment can invert the raw quotient &mdash; a superior technology
+      ($\theta = 2$) over-deployed at $q = 100$ averages $0.053$ per token while an inferior
+      one ($\theta = 1$) at $q = 1$ averages $0.693$ &mdash; and so can mixing eras of
+      different compute scarcity, even under competitive deployment. The repair is to deflate
+      by the contemporaneous shadow price: $AP/\lambda = g(\theta/\lambda)$ ranks relative
+      productivity monotonically.
     </p>
 
     <h2>Read</h2>
