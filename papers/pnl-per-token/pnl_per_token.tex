@@ -140,6 +140,7 @@ which compares models on the same task \emph{at the same congestion state} $z$. 
 
 Define the best technological productivity available on task $B$ at date $t$,
 \begin{equation}
+\label{eq:envelope}
 \theta^*(B) = \max_{m \in \mathcal{M}_t :\, B \subseteq A_m} \theta_m(B).
 \end{equation}
 
@@ -168,7 +169,7 @@ An itinerant unit of compute can therefore increase its return by switching to $
 If several models tie at $\theta^*(B)$, equilibrium pins down the total effective effort $z_B$ and hence the total compute on $B$, but not its division among the tied models: any split among frontier models is an equilibrium, and models strictly below the tie still receive zero. Ties therefore leave shares indeterminate without disturbing the displacement of strictly inferior technologies. This indeterminacy matters for the limiting results of Section~\ref{sec:limit}, where frontier membership with ties is necessary but not sufficient for positive share.
 \end{remark}
 
-Hence the prediction supply chain selects the \emph{upper productivity envelope} $\theta^*(B) = \max_m \theta_m(B)$. An inferior technology is not merely ranked below a better technology: it receives zero execution share once the superior substitute is freely available. That is crowding out. Displacement is this stark because value aggregates through the scalar $z_B$: model outputs are perfect substitutes after productivity scaling. Models with complementary errors, whose ensemble improves on either alone, fall outside the proposition and can survive being individually inferior.
+Hence the prediction supply chain selects the \emph{upper productivity envelope} $\theta^*(B)$ of \eqref{eq:envelope}. An inferior technology is not merely ranked below a better technology: it receives zero execution share once the superior substitute is freely available. That is crowding out. Displacement is this stark because value aggregates through the scalar $z_B$: model outputs are perfect substitutes after productivity scaling. Models with complementary errors, whose ensemble improves on either alone, fall outside the proposition and can survive being individually inferior.
 
 \subsection{Competition across problems}
 
