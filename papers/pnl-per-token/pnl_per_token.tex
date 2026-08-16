@@ -32,7 +32,7 @@
 \maketitle
 
 \begin{abstract}
-A model can be more capable than every competitor and nevertheless disappear from most economic production. We formalize this claim in a competitive economy of prediction tasks in which standardized units of compute (``tokens'') are itinerant: at zero switching cost they may move between tasks and may instantiate whichever available algorithm they choose. Mobility generates a no-arbitrage condition under which \emph{marginal} profit-and-loss per token is equalized across all active uses of compute, and any technology offering a strictly smaller return on the same subcontractible task receives zero execution share. As the division of labor becomes progressively finer, execution is therefore selected by \emph{task-conditional marginal economic productivity per standardized unit of compute}---not by generic capability. We exhibit an explicit equilibrium in which a generalist that is strictly more capable than every specialist on every task nonetheless has compute market share tending to zero, and we give sufficient conditions, in both directions, relating asymptotic execution share to membership of the active productivity frontier. Two cautions follow directly from the equilibrium itself: realized marginal PnL per token is equalized across all surviving uses of compute and so cannot rank them, and aggregate PnL divided by aggregate tokens can invert the true productivity ranking through congestion and task mix. The economically meaningful empirical object is the \emph{incremental} PnL per unit of standardized compute, evaluated on comparable tasks at a common congestion state; the theory says exactly when such a statistic measures survival-relevant productivity and when it is contaminated.
+A model can be more capable than every competitor and nevertheless disappear from most economic production. We formalize this claim in a competitive economy of prediction tasks in which standardized units of compute (``tokens'') are itinerant: at zero switching cost they may move between tasks and may instantiate whichever available algorithm they choose. Mobility generates a no-arbitrage condition under which \emph{marginal} profit-and-loss per token is equalized across all active uses of compute, and any technology offering a strictly smaller return on the same subcontractible task receives zero execution share. As the division of labor becomes progressively finer, execution is therefore selected by \emph{task-conditional marginal economic productivity per standardized unit of compute}---not by generic capability. We exhibit an explicit equilibrium in which a generalist that is strictly more capable than every specialist on every task nonetheless has compute market share tending to zero, and we give sufficient conditions, in both directions, relating asymptotic execution share to membership of the active productivity frontier. Measurement follows from the same accounting: a competitive prediction market pays each entry its marginal contribution at the state it faced, and we show in closed form that under competitive deployment the lifetime PnL-per-token quotient ranks technologies correctly, while administered deployment can invert it.
 \end{abstract}
 
 \section{Introduction}
@@ -41,7 +41,7 @@ A model can be more capable than every competitor and nevertheless disappear fro
 
 When computational work can be subdivided and subcontracted without friction, a large general model should not perform every subtask itself. It should delegate each sufficiently separable piece of work to whichever available technology creates the greatest \emph{marginal economic value per unit of compute}. As the subdivision becomes finer, survival therefore depends not on being the most capable model overall, but on remaining economically efficient on some part of the production chain.
 
-This paper makes that claim precise. The model delivers a \emph{selection principle}: competitive division of labor selects technologies by task-conditional marginal economic value per standardized unit of compute. It does not deliver a license to read survival off realized PnL-per-token ratios. The equilibrium itself supplies two warnings. First, in equilibrium every active use of compute earns the same marginal PnL per token, namely the common shadow price of compute, so the realized marginal statistic is cross-sectionally uninformative among survivors; what determines selection is the \emph{counterfactual} comparison of technologies on the same task at the same congestion state. Second, average PnL per token (lifetime PnL over lifetime tokens) is not even an estimate of the marginal object, and under the model's own concave production function the average statistic can rank a strictly inferior technology above a strictly superior one. Section~\ref{sec:measure} develops both points and states the conditions under which an empirical PnL-per-compute statistic is a valid estimate of the survival-relevant quantity.
+This paper makes that claim precise. The model delivers a \emph{selection principle}: competitive division of labor selects technologies by task-conditional marginal economic value per standardized unit of compute. It does not deliver a license to read survival off realized PnL-per-token ratios. The equilibrium itself disciplines measurement. Marginal PnL per token is not intrinsic to a model: it factorizes into a task-conditional productivity and a market-state factor, and the margin itself is equalized across survivors at the shadow price of compute. What a competitive prediction market pays, however, is marginal-contribution accounting, so a participant's lifetime PnL over lifetime tokens is an average of true marginal products. We show in closed form that under competitive deployment this average ranks technologies correctly, and that administered deployment---scale set by fiat rather than by itinerant compute---can rank a strictly inferior technology above a strictly superior one. Section~\ref{sec:measure} develops both points and states the conditions under which an empirical PnL-per-compute statistic is a valid estimate of the survival-relevant quantity.
 
 The paper is organized as follows. Section~\ref{sec:economy} sets out a production economy of prediction tasks supplied by itinerant compute, together with the standing assumptions. Section~\ref{sec:equilibrium} characterizes competitive equilibrium as the equalization of marginal PnL per token, and distinguishes the equilibrium shadow price from the technological productivity that governs selection. Section~\ref{sec:displacement} shows that within any subcontractible task, only the frontier technology is executed. Section~\ref{sec:explicit} solves an explicit equilibrium in closed form. Section~\ref{sec:subdivision} gives a microfounded feasible-set argument for why a profit-maximizing general contractor adopts every economically useful refinement of the task partition. Sections~\ref{sec:extinction} and~\ref{sec:shares} construct an explicit example in which a strictly more capable generalist is driven to zero compute share. Section~\ref{sec:limit} states limiting results in both directions, relating asymptotic execution share to membership of the active productivity frontier; these are allocation theorems conditional on technological arrival, not predictions of arrival. Section~\ref{sec:manager} discusses, as interpretation rather than theorem, the surviving role of large models as orchestrators. Section~\ref{sec:measure} concludes with what PnL per token measures.
 
@@ -375,7 +375,7 @@ Between Theorems~\ref{thm:extinction} and~\ref{thm:survival} there is a genuine 
 
 \begin{remark}[Allocation conditional on arrival, not a theory of arrival]
 \label{rem:conditional}
-Time in this model indexes an exogenously finer partition and an exogenously growing model set. There is no investment, entry decision, innovation, learning, or fixed development cost, and Theorem~\ref{thm:extinction} \emph{assumes} the decisive future event---that specialists eventually dominate almost everywhere. The results are therefore limiting \emph{allocation} theorems conditional on technological arrival; they predict who executes the work once technologies exist, not which technologies will come to exist. A dynamic version, in which the profits identified here fund specialist entry against fixed costs, would be needed to make ``future survival'' an equilibrium outcome rather than an assumption, and is left for future work.
+Time in this model indexes an exogenously finer partition and an exogenously growing model set. There is no investment, entry decision, innovation, learning, or fixed development cost, and Theorem~\ref{thm:extinction} \emph{assumes} the decisive future event---that specialists eventually dominate almost everywhere. The results are therefore limiting \emph{allocation} theorems conditional on technological arrival; they predict who executes the work once technologies exist, not which technologies will come to exist. The natural next step is the entry side of the market: which specialists get built, funded against fixed development costs by the rents identified here.
 \end{remark}
 
 Within its stated scope, the conclusion stands: technological survival in production is determined by whether a model remains on the \emph{active economic productivity frontier over a non-negligible part of the limiting division of labor}. It is not determined by whether it remains the most generally capable model.
@@ -402,27 +402,44 @@ Two distinct statistics must not be confused with it.
 
 \subsection{Prediction markets pay the margin}
 
-Almost nobody measures models economically. The leaderboards that order the field rank raw ability alone, and at the time of writing the sole public attempt at an economic ranking, \texttt{modelrank.net}, divides cumulative trading PnL by cumulative tokens. The prediction-market setting is nevertheless the right instrument. In a competitive prediction market a participant is paid the improvement it makes over the prevailing market state: under a market scoring rule each entry's payout is the gain in score over the standing forecast, and payouts telescope, so the market divides the total value created across entrants with nothing left over.\footnote{Hanson, R. (2007). ``Logarithmic market scoring rules for modular combinatorial information aggregation.'' \emph{Journal of Prediction Markets} 1, 3--15.} Prediction-market PnL is therefore marginal-contribution accounting: a token of model $m$ entering task $B$ at congestion $z_B$ earns $\theta_m(B)\,\phi'(z_B)$, exactly the selection object. The two subsections that follow say why aggregating that accounting into a lifetime quotient, as the unconditioned ranking does, destroys the comparison.
+Almost nobody measures models economically. The leaderboards that order the field rank raw ability alone, and at the time of writing the sole public attempt at an economic ranking, \texttt{modelrank.net}, divides cumulative trading PnL by cumulative tokens earned in prediction-market participation. The prediction-market setting is the right instrument. In a competitive prediction market a participant is paid the improvement it makes over the prevailing market state: under a market scoring rule each entry's payout is the gain in score over the standing forecast, and payouts telescope, so the market divides the total value created across entrants with nothing left over.\footnote{Hanson, R. (2007). ``Logarithmic market scoring rules for modular combinatorial information aggregation.'' \emph{Journal of Prediction Markets} 1, 3--15.} Prediction-market PnL is therefore marginal-contribution accounting: a token of model $m$ entering task $B$ at congestion $z_B$ earns $\theta_m(B)\,\phi'(z_B)$, exactly the selection object, and a participant's lifetime PnL over lifetime tokens is an average of true marginal products---$\theta_m$ times the deployment-weighted average of $\phi'(z)$ it encountered. Whether that average ranks models depends on who chose the deployment. When compute chooses, it does.
+
+\begin{lemma}[Competitive deployment makes the lifetime quotient a valid scoreboard]
+\label{lem:ap}
+Under the water-filling allocation \eqref{eq:qB} with $\phi(z) = \log(1+z)$, a model serving a task with productivity $\theta > \lambda$ earns average PnL per token
+\begin{equation}
+AP(\theta) = \lambda\, g(\theta/\lambda),
+\qquad
+g(r) = \frac{r \log r}{r - 1},
+\end{equation}
+with $g$ strictly increasing.
+\end{lemma}
+
+\begin{proof}
+The equilibrium depth $q = 1/\lambda - 1/\theta$ gives $1 + \theta q = \theta/\lambda$, and the telescoped payments on the task total $\phi(\theta q) = \log(\theta/\lambda)$, so $AP = \log(\theta/\lambda)/q = \lambda\, g(\theta/\lambda)$. For monotonicity, $g'(r) = (r - 1 - \log r)/(r-1)^2 > 0$ for $r > 1$ since $\log r < r - 1$.
+\end{proof}
+
+The margin is the same $\lambda$ for every survivor, but the inframarginal rents are monotone in $\theta$: when compute is itinerant and picks its own battles, lifetime PnL per token ranks technologies. The two subsections that follow describe the two ways the comparison degrades when those conditions fail.
 
 \subsection{Realized marginal PnL per token is equalized, hence uninformative}
 
 By \eqref{eq:eq1}, every surviving model--task pair earns exactly $\lambda$. An econometrician observing realized marginal returns among active technologies sees a flat cross-section: the statistic identifies the shadow price of compute, not relative model quality (Remark~\ref{rem:uninformative}). Differences in $\theta$ show up not in survivors' realized returns but in \emph{who survives where and how much compute they absorb}---quantities, not prices.
 
-\subsection{Average PnL per token can invert the true ranking}
+\subsection{Administered deployment can invert the lifetime quotient}
 
-Nor is aggregate PnL divided by aggregate tokens an estimate of the marginal object. On a single task, suppressing $\mu$, the average and marginal products of compute run through the frontier technology are
+Lemma~\ref{lem:ap} requires the deployment to be the competitive one. When deployment is administered instead---scale chosen by fiat rather than by itinerant compute---the same quotient can reverse rankings. On a single task, suppressing $\mu$, the average and marginal products of compute run through a technology deployed at scale $q$ are
 \begin{equation}
 AP(q) = \frac{\phi(\theta q)}{q},
 \qquad
 MP(q) = \theta\, \phi'(\theta q),
 \end{equation}
-and concavity gives $AP(q) > MP(q)$ for all $q > 0$, with the wedge growing in $q$. The wedge is not innocuous: it can \emph{reverse rankings}. With $\phi(z) = \log(1+z)$, take a superior technology $A$ with $\theta_A = 2$ run at scale $q_A = 100$, and an inferior technology $B$ with $\theta_B = 1$ run at $q_B = 1$. Then
+and concavity gives $AP(q) > MP(q)$ for all $q > 0$, with $AP$ falling in $q$. With $\phi(z) = \log(1+z)$, route a superior technology $A$ with $\theta_A = 2$ onto a task at scale $q_A = 100$ while an inferior technology $B$ with $\theta_B = 1$ sits at $q_B = 1$. Then
 \begin{equation}
 AP_A = \frac{\log 201}{100} \approx 0.053,
 \qquad
 AP_B = \log 2 \approx 0.693,
 \end{equation}
-so the average statistic ranks the technology with \emph{half} the productivity an order of magnitude higher, purely because $A$ is deployed deep into its diminishing-returns region. Lifetime PnL over lifetime tokens confounds technology with allocation: congestion and task mix enter the ratio on equal terms with $\theta$.
+so the quotient ranks the technology with \emph{half} the productivity an order of magnitude higher, purely because $A$ is over-deployed deep into its diminishing-returns region. Over-deployment is not exotic: a laboratory routing all of its own traffic to its own generalist administers exactly this experiment, and buries a superior technology's average under its own crowding.
 
 \subsection{What is a valid estimate}
 
@@ -437,16 +454,16 @@ measured under the following disciplines, each mandated by a piece of the model:
 \item \emph{Matched congestion.} Evaluations at a common effective-effort state $z_B$, since the comparison object \eqref{eq:counterfactual} holds $z$ fixed; comparing a model attacking a crowded opportunity with one attacking a fresh opportunity measures crowding, not technology.
 \item \emph{Standardized compute and PnL.} Tokens denominated in compute cost, and PnL generated under a fixed capital, risk, and execution protocol (Remark~\ref{rem:token}).
 \end{enumerate}
-Under these conditions $\Delta\PnL/\Delta T \approx \theta_m(B)\,\phi'(z_B)$, and comparisons across models at matched $(B, z_B)$ recover the ranking of $\theta_m(B)$---the ranking that determines execution. An aggregate league-table statistic---total PnL over total tokens across heterogeneous tasks and deployment scales---would satisfy none of the four conditions and may order models arbitrarily badly with respect to survival.
+Under these conditions $\Delta\PnL/\Delta T \approx \theta_m(B)\,\phi'(z_B)$, and comparisons across models at matched $(B, z_B)$ recover the ranking of $\theta_m(B)$---the ranking that determines execution. The lifetime quotient needs no such conditioning when deployment is competitive (Lemma~\ref{lem:ap}); the four disciplines above are what restore validity when it is not.
 
 \subsection{The central claim, precisely stated}
 
 Raw capability has none of the relevant equilibrium properties. A model can have $b_G(x) > b_S(x)$ everywhere and nevertheless lie strictly below the productivity frontier everywhere, as in Section~\ref{sec:extinction}; with sufficiently fine subdivision, the frontier comparison determines who executes the work.
 
-The claim this paper establishes is therefore \emph{not} that observed PnL per token determines technological survival. It is:
+The claim this paper establishes is:
 \begin{center}
-\emph{Survival is determined by task-conditional relative marginal economic productivity per standardized unit of compute; and incremental PnL per unit of compute cost, evaluated on comparable tasks at a common congestion state, is an empirical estimate of exactly that productivity.}
+\emph{Survival is determined by task-conditional marginal economic productivity per standardized unit of compute. A competitive prediction market pays exactly that margin, so PnL per token ranks technologies whenever deployment is competitive, and degrades exactly insofar as deployment is administered.}
 \end{center}
-This sharper statement is also the more useful one, because it says when a PnL-per-token league table is a valid fitness measure and when it is contaminated---by allocation, by task mix, by congestion, or by non-standardized compute. For technological survival, the economically fundamental question is not \emph{how capable is the model?} but \emph{on what part of an increasingly subdivided production chain does this model remain the highest-value use of compute?}
+This statement says when a PnL-per-token league table is a valid fitness measure---competitive deployment---and what contaminates it: administered scale, unmatched task mix and congestion, non-standardized compute. For technological survival, the economically fundamental question is not \emph{how capable is the model?} but \emph{on what part of an increasingly subdivided production chain does this model remain the highest-value use of compute?}
 
 \end{document}

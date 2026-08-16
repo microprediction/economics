@@ -5,6 +5,7 @@
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 
 \newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
 \newproof{proof}{Proof}
 
 \newcommand{\PnL}{\mathrm{PnL}}
@@ -40,7 +41,7 @@ The premise fails in equilibrium. A model can outscore every rival on every benc
 
 This note makes a single observation and develops its consequence. When compute is itinerant, free to move between prediction tasks and to run any available algorithm, and each opportunity contains finite alpha, competitive equilibrium does two things at once: it equalizes marginal profit-and-loss (PnL) per token across all active uses of compute, and within each task it hands execution entirely to the technology with the highest value per token. Raw capability enters neither condition.
 
-Two consequences follow. First, a generalist strictly more capable than every specialist can have equilibrium compute share tending to zero as tasks subdivide (Section~\ref{sec:exit}): the capability race can be won while the production economy is lost. Second, the obvious economic scoreboard to build instead, total PnL divided by total tokens, would also mislead: averaged across heterogeneous tasks and congestion levels, it can invert the ranking that governs survival. The statistic that does govern survival is incremental PnL per unit of compute cost at matched task and congestion (Section~\ref{sec:measure}).
+Two consequences follow. First, a generalist strictly more capable than every specialist can have equilibrium compute share tending to zero as tasks subdivide (Section~\ref{sec:exit}): the capability race can be won while the production economy is lost. Second, the natural economic scoreboard, lifetime PnL divided by lifetime tokens in a competitive prediction market, is an average of true marginal payments: when compute picks its own battles it ranks technologies correctly, and it inverts only when deployment is administered (Section~\ref{sec:measure}).
 
 The mechanism is old. \citet{smith1776} tied the division of labour to the extent of the market; \citet{ricardo1817} showed the absolutely better party does not get all the work; \citet{beckermurphy1992} bound specialization by coordination costs; \citet{acemogluautor2011} model production as a task continuum with technologies assigned by comparative advantage. \citet{cotton2022} supplies the vision this note formalizes: analytical tasks naturally evolve into radically low-cost prediction supply chains. We import the classical skeleton, replace labor with compute, and add the feature specific to prediction: alpha decays with crowding, so returns to effort on a task are concave.
 
@@ -104,20 +105,37 @@ The example generalizes. Let $E_t = \{ x : \theta_G(x) \ge \max_{m \in \mathcal{
 \section{What PnL per token measures}
 \label{sec:measure}
 
-Almost nobody measures models economically. The leaderboards that order the field rank ability alone, and at the time of writing the sole public attempt at an economic ranking, \texttt{modelrank.net}, divides cumulative trading PnL by cumulative tokens. The model says what such a quotient can and cannot mean.
+Marginal PnL per token is not an intrinsic quality of a model. It factorizes as $r_{mB} = \theta_m(B)\,\phi'(z_B)$: the first factor is the model, the second is the state of the market. What is intrinsic, given the task, is $\theta_m(B)$, and at a matched task and congestion state the market factor is common, so ratios of marginal PnL across models are ratios of $\theta$.
 
-Start with what PnL gets right. In a competitive prediction market, a participant is paid the improvement it makes over the prevailing market state: under a market scoring rule the payout to each entry is the gain in score over the standing forecast, and payouts telescope, so the market divides total value created across entrants with nothing left over \citep{hanson2007}. Prediction-market PnL is therefore marginal-contribution accounting. A token of model $m$ entering task $B$ at congestion $z_B$ earns $\theta_m(B)\,\phi'(z_B)$, the object that decides execution in Section~\ref{sec:economy}. In English: the market pays each token its marginal product at the state it faced. No capability benchmark has this property.
+A competitive prediction market pays exactly this margin. Under a market scoring rule each entry is paid its improvement over the standing forecast, and the payments telescope \citep{hanson2007}, so every dollar a participant earns is a marginal payment at the state it faced. A participant's lifetime PnL over lifetime tokens is therefore an average of true marginal products: $\theta_m$ times the deployment-weighted average of $\phi'(z)$ it encountered. Whether that average ranks models depends on who chose the deployment.
 
-Two corrections are still required before the quotient ranks technologies. First, in full equilibrium the margin equals the same $\lambda$ for every surviving model--task pair, so realized margins go flat across survivors. What stays informative is excess PnL per token out of equilibrium, since a technology above the frontier earns more than $\lambda$ until crowding removes the excess, and quantities: who absorbs the compute.
+If compute chooses, the average ranks correctly.
 
-Second, cumulative PnL over cumulative tokens averages marginal products over the path of past congestion states and task mixes, and the average can invert the ranking. On one task the average and marginal products are $AP(q) = \phi(\theta q)/q$ and $MP(q) = \theta\,\phi'(\theta q)$. With $\phi(z) = \log(1+z)$, a superior technology $\theta_A = 2$ deployed at scale $q_A = 100$ averages $\log 201 / 100 \approx 0.053$ per token, while an inferior $\theta_B = 1$ at $q_B = 1$ averages $\log 2 \approx 0.693$. The lifetime quotient confounds technology with allocation.
+\begin{lemma}[Competitive deployment makes the lifetime quotient a valid scoreboard]
+\label{lem:ap}
+Under the water-filling allocation \eqref{eq:waterfill} with $\phi(z) = \log(1+z)$, a model serving a task with productivity $\theta > \lambda$ earns average PnL per token
+\begin{equation}
+AP(\theta) = \lambda\, g(\theta/\lambda),
+\qquad
+g(r) = \frac{r \log r}{r - 1},
+\end{equation}
+and $g$ is strictly increasing.
+\end{lemma}
 
-The statistic that ranks technologies is the incremental return $\Delta\PnL / \Delta T$: small increments relative to deployed scale, matched task, matched congestion, tokens denominated in compute cost, PnL under a fixed risk protocol. Under those conditions $\Delta\PnL/\Delta T \approx \theta_m(B)\,\phi'(z_B)$, and comparisons at matched $(B, z_B)$ recover the ranking that decides execution. A competitive prediction market generates the raw material for this statistic automatically; the unconditioned quotient does not, and the capability leaderboards measure $b$, not $\theta$: they rank models on the axis that equilibrium ignores.
+\begin{proof}
+The equilibrium depth $q = 1/\lambda - 1/\theta$ gives $1 + \theta q = \theta/\lambda$, and telescoped payments on the task total $\phi(\theta q) = \log(\theta/\lambda)$, so $AP = \log(\theta/\lambda)/q = \lambda\, g(\theta/\lambda)$. Monotonicity: $g'(r) \propto r - 1 - \log r > 0$ for $r > 1$. \qed
+\end{proof}
+
+In English: the margin is the same $\lambda$ for every survivor, but the inframarginal rents are not, and they are monotone in $\theta$. When compute is itinerant and picks its own battles, lifetime PnL per token ranks technologies.
+
+If deployment is administered instead, the same quotient can invert. Route $\theta_A = 2$ onto a task at scale $q_A = 100$ while $\theta_B = 1$ sits at $q_B = 1$: telescoped payments total $\phi(\theta q)$, so $A$ averages $\log 201/100 \approx 0.053$ per token against $B$'s $\log 2 \approx 0.693$. Over-deployment, for instance a laboratory routing all traffic to its own generalist, buries a superior technology's average under its own crowding.
+
+At the time of writing the leaderboards that order the field rank ability alone, and the sole public attempt at an economic ranking, \texttt{modelrank.net}, computes the lifetime quotient from prediction-market participation. Lemma~\ref{lem:ap} says when to trust it: the quotient ranks $\theta$ correctly insofar as the underlying deployment is competitive, and degrades insofar as it is administered. Capability benchmarks measure $b$, not $\theta$: they rank models on the axis that equilibrium ignores.
 
 \section{Discussion}
 \label{sec:discussion}
 
-Capable large models need not disappear. Their comparative advantage may move up the production hierarchy, to decomposition, routing, verification, and the hard residual, whenever their value per token on those tasks sits on the frontier; in the present model that statement is an application of Proposition~\ref{prop:displacement} rather than a theorem, since decomposition here is free and exogenous. For strategy, the question is therefore not who owns the most capable model but who owns the productivity frontier somewhere in the limiting division of labor. We leave to future work the entry model in which the profits identified here fund specialist development against fixed costs, making survival an equilibrium outcome rather than an assumption.
+Capable large models need not disappear. Their comparative advantage may move up the production hierarchy, to decomposition, routing, verification, and the hard residual, whenever their value per token on those tasks sits on the frontier; in the present model that statement is an application of Proposition~\ref{prop:displacement} rather than a theorem, since decomposition here is free and exogenous. For strategy, the question is therefore not who owns the most capable model but who owns the productivity frontier somewhere in the limiting division of labor. We leave to future work the entry side of the market: which specialists get built, funded against fixed development costs by the rents identified here.
 
 \bibliographystyle{elsarticle-harv}
 
