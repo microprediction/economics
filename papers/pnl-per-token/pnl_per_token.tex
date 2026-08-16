@@ -6,6 +6,7 @@
 \usepackage{microtype}
 \usepackage{xcolor}
 \usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\hypersetup{pdftitle={Division of Labor and the Survival Value of PnL per Token},pdfauthor={Peter Cotton}}
 \usepackage{enumitem}
 
 \newtheorem{proposition}{Proposition}
@@ -32,7 +33,7 @@
 \maketitle
 
 \begin{abstract}
-A model can be more capable than every competitor and nevertheless disappear from most economic production. We formalize this claim in a competitive economy of prediction tasks in which standardized units of compute (``tokens'') are itinerant: at zero switching cost they may move between tasks and may instantiate whichever available algorithm they choose. Mobility generates a no-arbitrage condition under which \emph{marginal} profit-and-loss per token is equalized across all active uses of compute, and any technology offering a strictly smaller return on the same subcontractible task receives zero execution share. As the division of labor becomes progressively finer, execution is therefore selected by \emph{task-conditional marginal economic productivity per standardized unit of compute}---not by generic capability. We exhibit an explicit equilibrium in which a generalist that is strictly more capable than every specialist on every task nonetheless has compute market share tending to zero, and we give sufficient conditions, in both directions, relating asymptotic execution share to membership of the active productivity frontier. Measurement follows from the same accounting: a competitive prediction market pays each entry its marginal contribution at the state it faced, and average PnL per token equals the shadow price of compute times the inverse elasticity of task value with respect to effective compute, so at a common shadow price it ranks task-level productivity exactly when that elasticity declines with crowding, as it does under log production; administered deployment or mixed scarcity regimes invert the unconditioned quotient. There is no scalar intrinsic model quality to estimate: PnL per token is an equilibrium-weighted measure of the economic niches a model occupies.
+A model can be more capable than every competitor and nevertheless disappear from most economic production. We formalize this claim in a competitive economy of prediction tasks in which standardized units of compute (``tokens'') are itinerant: at zero switching cost they may move between tasks and may instantiate whichever available algorithm they choose. Mobility generates a no-arbitrage condition under which \emph{marginal} profit-and-loss per token is equalized across all active uses of compute, and any technology offering a strictly smaller return on the same subcontractible task receives zero execution share. As the division of labor becomes progressively finer, execution is therefore selected by \emph{task-conditional marginal economic productivity per standardized unit of compute}---not by generic capability. We exhibit an explicit equilibrium in which a generalist that is strictly more capable than every specialist on every task nonetheless has compute market share tending to zero, and we give sufficient conditions, in both directions, relating asymptotic execution share to membership of the active productivity frontier. Measurement follows from the same accounting: a competitive prediction market pays each entry its marginal contribution at the state it faced, and average PnL per token equals the shadow price of compute times the inverse elasticity of task value with respect to effective compute, so at a common shadow price it ranks task-level productivity exactly when that elasticity declines with crowding, as it does under log production; administered deployment or mixed scarcity regimes invert the unconditioned quotient. The model supplies no canonical task-invariant scalar quality: any aggregate PnL-per-token ranking embeds a task distribution and deployment weighting, measuring the economic niches a model occupies.
 \end{abstract}
 
 \section{Introduction}
@@ -44,6 +45,8 @@ When computational work can be subdivided and subcontracted without friction, a 
 This paper makes that claim precise. The model delivers a \emph{selection principle}: competitive division of labor selects technologies by task-conditional marginal economic value per standardized unit of compute. It does not deliver a license to read survival off realized PnL-per-token ratios. The equilibrium itself disciplines measurement. Marginal PnL per token is not intrinsic to a model: it factorizes into a task-conditional productivity and a market-state factor, and the margin itself is equalized across survivors at the shadow price of compute. What a competitive prediction market pays, however, is marginal-contribution accounting, so a participant's lifetime PnL over lifetime tokens is an average of true marginal products. We show that this average equals the shadow price of compute times the inverse elasticity of task value with respect to effective compute, so at a common shadow price it ranks task-level productivity exactly when that elasticity declines with crowding; and that administered deployment---scale set by fiat rather than by itinerant compute---can rank a strictly inferior technology above a strictly superior one. Section~\ref{sec:measure} develops both points and states the conditions under which an empirical PnL-per-compute statistic is a valid estimate of the survival-relevant quantity.
 
 The paper is organized as follows. Section~\ref{sec:economy} sets out a production economy of prediction tasks supplied by itinerant compute, together with the standing assumptions. Section~\ref{sec:equilibrium} characterizes competitive equilibrium as the equalization of marginal PnL per token, and distinguishes the equilibrium shadow price from the technological productivity that governs selection. Section~\ref{sec:displacement} shows that within any subcontractible task, only the frontier technology is executed. Section~\ref{sec:explicit} solves an explicit equilibrium in closed form. Section~\ref{sec:subdivision} gives a microfounded feasible-set argument for why a profit-maximizing general contractor adopts every economically useful refinement of the task partition. Sections~\ref{sec:extinction} and~\ref{sec:shares} construct an explicit example in which a strictly more capable generalist is driven to zero compute share. Section~\ref{sec:limit} states limiting results in both directions, relating asymptotic execution share to membership of the active productivity frontier; these are allocation theorems conditional on technological arrival, not predictions of arrival. Section~\ref{sec:manager} discusses, as interpretation rather than theorem, the surviving role of large models as orchestrators. Section~\ref{sec:measure} concludes with what PnL per token measures.
+
+The mechanism has classical ancestry. Smith (1776) tied the division of labour to the extent of the market; Ricardo (1817) showed the absolutely better party does not get all the work; Becker and Murphy (1992) bound specialization by coordination costs; Acemoglu and Autor (2011) model production as a task continuum with technologies assigned by comparative advantage. Hanson (2007) supplies the market scoring rules used in Section~\ref{sec:measure}, and Cotton (2022) the vision formalized here, in which analytical tasks evolve into radically low-cost prediction supply chains.
 
 \section{Prediction as a production economy}
 \label{sec:economy}
@@ -67,8 +70,9 @@ At date $t$ there is a set of available models $\mathcal{M}_t$. We maintain thro
 \begin{assumption}
 \label{ass:models}
 (i) $\mathcal{M}_t$ is finite for each $t$, and $\mathcal{M}_t \subseteq \mathcal{M}_{t+1}$ (technologies, once available, remain available).
-(ii) Each model $m$ has a feasibility set $A_m \subseteq \Omega$, the work it can perform, and a measurable productivity function $\theta_m : A_m \to (0, \bar\theta\,]$, bounded above, assigning to each feasible microtask the \emph{effective predictive effort} contributed per token of $m$; allocations satisfy $q_{mB} = 0$ unless $B \subseteq A_m$. At date $t$, each $A_m$ is a union of cells and each $\theta_m$ is $\mathcal{P}_t$-measurable (constant on cells), so that $\theta_m(B)$ is well defined on feasible cells; refinement of the partition may reveal within-cell variation in productivity at later dates. Infeasibility ($x \notin A_m$) is conceptually distinct from zero productivity, and we model specialists through $A_m$ rather than through $\theta_m = 0$.
-(iii) $\phi : [0,\infty) \to [0,\infty)$ is continuously differentiable with $\phi(0) = 0$, $\phi' > 0$, $\phi'' < 0$.
+(ii) Each model $m$ has a feasibility set $A_m \subseteq \Omega$, the work it can perform, and a measurable productivity function $\theta_m : A_m \to (0, \bar\theta\,]$, bounded above, assigning to each feasible microtask the \emph{effective predictive effort} contributed per token of $m$; allocations satisfy $q_{mB} = 0$ unless $B \subseteq A_m$. At date $t$, each $A_m$ is a union of cells and each $\theta_m$ is $\mathcal{P}_t$-measurable (constant on cells), so that $\theta_m(B)$ is well defined on feasible cells. For a model already in $\mathcal{M}_t$, $\mathcal{P}_t$-measurability persists under refinement; within-cell variation at later dates enters only through newly arriving models, whose productivities may distinguish cells that earlier partitions did not. Infeasibility ($x \notin A_m$) is conceptually distinct from zero productivity, and we model specialists through $A_m$ rather than through $\theta_m = 0$.
+(iii) $\phi : [0,\infty) \to [0,\infty)$ is continuously differentiable with $\phi(0) = 0$, $\phi' > 0$, and $\phi'$ strictly decreasing.
+(iv) $K > 0$, every cell of every partition has positive measure, and every cell is feasible for at least one available model.
 \end{assumption}
 
 \begin{remark}[What a token is]
@@ -205,7 +209,7 @@ If instead compute is elastically supplied at dollar cost $c$ per token, set $\l
 \begin{equation}
 \theta^*(B)\, \phi'\!\left( \theta^*(B)\, q_B \right) = c,
 \end{equation}
-which is the usual zero-economic-profit boundary.
+which is the marginal entry condition for compute: zero marginal profit for the entering token, not zero inframarginal profit for the technology.
 \end{remark}
 
 \section{Why subdivision occurs}
@@ -222,22 +226,30 @@ V(q) = \int_\Omega \phi\!\left( \sum_m \theta_m(x)\, q_m(x) \right) \mu(dx),
 \end{equation}
 Because $\theta_m$ is itself $\mathcal{P}_t$-measurable at date $t$, \eqref{eq:microV} coincides with the cell formulation \eqref{eq:V} on $\mathcal{P}_t$-measurable allocations; and a $\mathcal{P}_t$-measurable allocation is automatically $\mathcal{P}_{t+1}$-measurable.
 
+Refinement and technological arrival must not be confounded: from date $t$ to $t{+}1$ both the partition and the model set change, and a value gain may come from either. Write $V^*(\mathcal{P}; \mathcal{M})$ for the supremum of \eqref{eq:microV} over $\mathcal{P}$-measurable allocations using the models in $\mathcal{M}$. The date-to-date comparison then decomposes as
+\begin{equation}
+V^*_{t+1} = V^*(\mathcal{P}_{t+1}; \mathcal{M}_{t+1})
+\;\ge\; V^*(\mathcal{P}_t; \mathcal{M}_{t+1})
+\;\ge\; V^*(\mathcal{P}_t; \mathcal{M}_t) = V^*_t,
+\end{equation}
+a refinement term and an arrival term. The results below concern the refinement term alone, with the technology set held fixed.
+
 \begin{lemma}[Refinement monotonicity]
 \label{lem:monotone}
-Refinement weakly expands the feasible set of allocation rules; hence the optimal values satisfy $V^*_{t+1} \ge V^*_t$.
+For any fixed model set $\mathcal{M}$, if $\mathcal{P}'$ refines $\mathcal{P}$ then $V^*(\mathcal{P}'; \mathcal{M}) \ge V^*(\mathcal{P}; \mathcal{M})$.
 \end{lemma}
 
 \begin{proof}
-Any $\mathcal{P}_t$-measurable allocation is $\mathcal{P}_{t+1}$-measurable, so the date-$t$ feasible set is contained in the date-$(t{+}1)$ feasible set, and the supremum of \eqref{eq:microV} cannot fall.
+Any $\mathcal{P}$-measurable allocation is $\mathcal{P}'$-measurable, so the feasible set weakly expands and the supremum of \eqref{eq:microV} cannot fall.
 \end{proof}
 
 \begin{proposition}[Strict value of refinement]
 \label{prop:strict}
-Suppose the date-$(t{+}1)$ optimum assigns strictly positive compute to two children $B_1, B_2 \subset B$ of some date-$t$ cell, with distinct unique frontier suppliers $m_1 \neq m_2$. Then $V^*_{t+1} > V^*_t$.
+Fix $\mathcal{M}$ and let $\mathcal{P}'$ refine $\mathcal{P}$. Suppose the optimum under $\mathcal{P}'$ assigns strictly positive compute to two children $B_1, B_2 \subset B$ of some cell of $\mathcal{P}$, with distinct unique frontier suppliers $m_1 \neq m_2$ in $\mathcal{M}$. Then $V^*(\mathcal{P}'; \mathcal{M}) > V^*(\mathcal{P}; \mathcal{M})$.
 \end{proposition}
 
 \begin{proof}
-By Proposition~\ref{prop:displacement} applied at date $t{+}1$, the date-$(t{+}1)$ optimum runs $m_1$ exclusively on $B_1$ and $m_2$ exclusively on $B_2$, with positive compute on each; its allocation is therefore not constant on $B$ and so is not $\mathcal{P}_t$-measurable. Since $V$ is strictly concave in the effective-effort profile and the date-$(t{+}1)$ optimum is unique in that profile, no $\mathcal{P}_t$-measurable allocation attains $V^*_{t+1}$.
+By Proposition~\ref{prop:displacement} applied cellwise under $\mathcal{P}'$, \emph{every} allocation attaining $V^*(\mathcal{P}'; \mathcal{M})$ runs $m_1$ exclusively on $B_1$ and $m_2$ exclusively on $B_2$, with positive compute on each. A $\mathcal{P}$-measurable allocation assigns each model a constant density across the parent cell $B$, so it would require $q_{m_1} > 0$ on $B_1$ and $q_{m_1} = 0$ on $B_2$ simultaneously. Hence no $\mathcal{P}$-measurable allocation attains the fine optimum, and the inequality is strict.
 \end{proof}
 
 Note the two qualifications built into Proposition~\ref{prop:strict}: the children must have \emph{different} best suppliers, and both must \emph{optimally receive compute}. Children whose optimal allocation is zero (because $\theta^*$ falls below the shadow price there) contribute no strict gain, however different their frontiers.
@@ -356,19 +368,19 @@ The converse direction requires strictly more than frontier membership ``somewhe
 
 \begin{theorem}[Survival]
 \label{thm:survival}
-Suppose there exist $\varepsilon > 0$ and $\delta > 0$ such that for all $t$ the set
+Suppose there exist $\varepsilon_\theta > 0$, $\varepsilon_r > 0$, and $\delta > 0$ such that for all $t$ the set
 \begin{equation}
 F_t = \left\{ x \in \Omega :\;
-\theta_G(x) \ge \max_{m \in \mathcal{M}_t \setminus \{G\}} \theta_m(x) + \varepsilon
+\theta_G(x) \ge \max_{m \in \mathcal{M}_t \setminus \{G\} :\, x \in A_m} \theta_m(x) + \varepsilon_\theta
 \;\text{ and }\;
-\theta_G(x)\, \phi'(0) \ge \lambda_t + \varepsilon
+\theta_G(x)\, \phi'(0) \ge \lambda_t + \varepsilon_r
 \right\}
 \end{equation}
-satisfies $\mu(F_t) \ge \delta$. Then $Q_{G,t}$ is bounded away from zero: there exists $\eta > 0$, depending only on $\varepsilon$, $\delta$, $\bar\theta$, and $\phi$, with $Q_{G,t} \ge \eta$ for all $t$.
+satisfies $\mu(F_t) \ge \delta$. Then $Q_{G,t}$ is bounded away from zero: there exists $\eta > 0$, depending only on $\varepsilon_r$, $\delta$, $\bar\theta$, and $\phi$, with $Q_{G,t} \ge \eta$ for all $t$.
 \end{theorem}
 
 \begin{proof}
-On $F_t$ the generalist is the unique frontier technology, so by Proposition~\ref{prop:displacement} it performs all executed work there. The activity condition $\theta_G(x)\,\phi'(0) \ge \lambda_t + \varepsilon$ makes the marginal return of the first token strictly exceed the shadow price, so equilibrium compute on such a cell is strictly positive and satisfies $\theta_G(x)\, \phi'\!\big(\theta_G(x)\, q(x)\big) = \lambda_t \le \theta_G(x)\,\phi'(0) - \varepsilon$. Since $\phi'$ is continuous and strictly decreasing and $\theta_G \le \bar\theta$, this forces $q(x) \ge q_{\min}(\varepsilon, \bar\theta, \phi) > 0$ uniformly on $F_t$. Hence $Q_{G,t} \ge \delta\, q_{\min} = \eta$.
+On $F_t$ the generalist is the unique frontier technology, so by Proposition~\ref{prop:displacement} it performs all executed work there. The activity condition $\theta_G(x)\,\phi'(0) \ge \lambda_t + \varepsilon_r$ makes the marginal return of the first token strictly exceed the shadow price, so equilibrium compute on such a cell is strictly positive and satisfies $\theta_G(x)\, \phi'\!\big(\theta_G(x)\, q(x)\big) = \lambda_t \le \theta_G(x)\,\phi'(0) - \varepsilon_r$. Since $\phi'$ is continuous and strictly decreasing and $\theta_G \le \bar\theta$, this forces $q(x) \ge q_{\min}(\varepsilon_r, \bar\theta, \phi) > 0$ uniformly on $F_t$. Hence $Q_{G,t} \ge \delta\, q_{\min} = \eta$.
 \end{proof}
 
 Between Theorems~\ref{thm:extinction} and~\ref{thm:survival} there is a genuine gap---vanishing frontier margins, ties, and sets of vanishing measure occupy the boundary---and we do not claim an if-and-only-if characterization. The economically robust summary is: \emph{positive asymptotic execution share requires a positive-measure, strictly active set on which the model is selected from the productivity frontier; and if that set vanishes in measure while token intensities stay bounded, so does the model's compute share.}
@@ -402,7 +414,7 @@ Two distinct statistics must not be confused with it.
 
 \subsection{Prediction markets pay the margin}
 
-Almost nobody measures models economically. The leaderboards that order the field rank raw ability alone; one public attempt at an economic ranking, \texttt{modelrank.net}, divides cumulative trading PnL by cumulative tokens earned in prediction-market participation. The prediction-market setting is the right instrument. In a competitive prediction market a participant is paid the improvement it makes over the prevailing market state: under a market scoring rule each entry's payout is the gain in score over the standing forecast, and payouts telescope, so the market divides the total value created across entrants with nothing left over.\footnote{Hanson, R. (2007). ``Logarithmic market scoring rules for modular combinatorial information aggregation.'' \emph{Journal of Prediction Markets} 1, 3--15.} Prediction-market PnL is therefore marginal-contribution accounting: a token of model $m$ entering task $B$ at congestion $z_B$ earns $\theta_m(B)\,\phi'(z_B)$, exactly the selection object. Telescoping gives additivity of payments; identifying them with the production technology takes one definition. Let $p(z)$ be the standing forecast after effective effort $z$ and \emph{define} $\phi(z) = \E[S(p(z), Y)] - \E[S(p(0), Y)]$, the expected score improvement effort has purchased; the form $\phi(z) = \log(1+z)$ is a convenient parametrization of this map, not a consequence of the scoring rule. With compute arriving in increments, each choosing the highest current return, an increment $dq$ on a task earns $d\Pi = \phi'(z)\,dz = \theta\,\phi'(\theta q)\,dq$, so payments integrate to $\int_0^q \theta\,\phi'(\theta s)\,ds = \phi(\theta q)$ for a sole supplier---the case Proposition~\ref{prop:displacement} delivers on strict frontiers; with interleaved suppliers aggregate payments still telescope but individual attribution is path dependent. A participant's lifetime PnL over lifetime tokens is then an average of true marginal products---$\theta_m$ times the deployment-weighted average of $\phi'(z)$ it encountered. Whether that average ranks models depends on who chose the deployment, at what scarcity, and on the shape of $\phi$. At a common shadow price, the average is an inverse elasticity.
+Almost nobody measures models economically. Most public leaderboards primarily rank capability, sometimes alongside price and latency; almost none ranks realized economic value net of compute expenditure. One public attempt at a realized-PnL ranking, \texttt{modelrank.net}, currently divides prediction-market PnL by vendor-metered tokens under randomized routing, with open positions marked to market: read through the present model, a randomized experiment estimating average incremental trading contribution over an assigned distribution of tasks and states, with randomization serving causal identification rather than instantiating the itinerant equilibrium. The prediction-market setting is nevertheless the right instrument. In a competitive prediction market a participant is paid the improvement it makes over the prevailing market state: under a market scoring rule each entry's payout is the gain in score over the standing forecast, and payouts telescope.\footnote{Hanson, R. (2007). ``Logarithmic market scoring rules for modular combinatorial information aggregation.'' \emph{Journal of Prediction Markets} 1, 3--15.} The mechanism implements marginal-contribution payments for procured information value, funded by a principal who values the forecast; the $\phi$ below is market-compensated information output rather than a welfare measure, and the theory needs only these private returns. Prediction-market PnL is therefore marginal-contribution accounting: a token of model $m$ entering task $B$ at congestion $z_B$ earns $\theta_m(B)\,\phi'(z_B)$, exactly the selection object. Telescoping gives additivity of payments; identifying them with the production technology takes one definition. Let $p(z)$ be the standing forecast after effective effort $z$ and \emph{define} $\phi(z) = \E[S(p(z), Y)] - \E[S(p(0), Y)]$, the expected score improvement effort has purchased; the form $\phi(z) = \log(1+z)$ is a convenient parametrization of this map, not a consequence of the scoring rule. With compute arriving in increments, each choosing the highest current return, an increment $dq$ on a task earns $d\Pi = \phi'(z)\,dz = \theta\,\phi'(\theta q)\,dq$, so payments integrate to $\int_0^q \theta\,\phi'(\theta s)\,ds = \phi(\theta q)$ for a sole supplier---the case Proposition~\ref{prop:displacement} delivers on strict frontiers; with interleaved suppliers aggregate payments still telescope but individual attribution is path dependent. A participant's lifetime PnL over lifetime tokens is then an average of true marginal products---$\theta_m$ times the deployment-weighted average of $\phi'(z)$ it encountered. Whether that average ranks models depends on who chose the deployment, at what scarcity, and on the shape of $\phi$. At a common shadow price, the average is an inverse elasticity.
 
 \begin{lemma}[PnL per token is an inverse elasticity]
 \label{lem:ap}
@@ -424,7 +436,7 @@ $AP = \phi(z)/q = \theta\,\phi(z)/z$ and $\lambda = \theta\,\phi'(z)$ give $AP/\
 For $\phi(z) = \log(1+z)$, $\varepsilon_\phi(z) = z/\big((1+z)\log(1+z)\big)$ is strictly decreasing, since $\log(1+z) < z$; hence $AP$ is strictly increasing in $\theta$, explicitly $AP = \lambda\, g(\theta/\lambda)$ with $g(r) = r\log r/(r-1)$ and $g'(r) = (r - 1 - \log r)/(r-1)^2 > 0$.
 \end{corollary}
 
-Concavity alone does not deliver the ranking. The power family $\phi(z) = z^\alpha$, $0 < \alpha < 1$, satisfies every assumption yet has constant elasticity, so $AP/\lambda = 1/\alpha$ for every $\theta$: competitive PnL per token then carries no ranking information at all. And $\phi(z) = z^{1/4} + z^{3/4}$ is increasing and strictly concave with increasing elasticity, so it reverses the ranking under fully competitive deployment at a common shadow price. Declining production elasticity is therefore the substantive economic condition under which inframarginal PnL per token reveals productivity, and whether the elasticity of alpha with respect to compute declines with crowding is an empirical question.
+Concavity alone does not deliver the ranking. At the Inada boundary, admitting an infinite right derivative at zero, the power family $\phi(z) = z^\alpha$, $0 < \alpha < 1$, has constant elasticity, so $AP/\lambda = 1/\alpha$ for every $\theta$: competitive PnL per token then carries no ranking information at all. Within the stated smoothness class, take $\phi(z) = z + a(1 - e^{-z})$ with $a > 0$: then $\phi(0) = 0$, $\phi'(z) = 1 + a e^{-z} > 0$, $\phi''(z) = -a e^{-z} < 0$, and its elasticity tends to one as $z \to 0$ and as $z \to \infty$ yet, by strict concavity, lies below one at every positive $z$; it therefore increases somewhere, and on that range competitive average PnL reverses the productivity ranking at a common shadow price. Declining production elasticity is therefore the substantive economic condition under which inframarginal PnL per token reveals productivity, and whether the elasticity of alpha with respect to compute declines with crowding is an empirical question.
 
 Under log production the margin is the same $\lambda$ for every survivor, but the inframarginal rents are not, and at a common $\lambda$ they are monotone in $\theta$. The conditioning on $\lambda$ is essential: a lifetime quotient that mixes dates or markets with different shadow prices can invert under fully competitive deployment ($\theta_A = 100$ earned where $\lambda = 0.01$ averages $0.01\,g(10^4) \approx 0.09$ per token, while $\theta_B = 2$ earned where $\lambda = 1$ averages $2\log 2 \approx 1.39$). The repair is to deflate: $AP/\lambda = g(\theta/\lambda)$ ranks relative productivity monotonically---raw PnL per token is a nominal return, and the shadow value of compute is its deflator. Alternatively, when compute is elastically supplied at unit dollar cost (the elastic-supply remark of Section~\ref{sec:explicit}), $\lambda = 1$ across unconstrained competitive environments and $AP(\theta) = g(\theta)$ is directly comparable; deflation is needed only where compute is capacity constrained or its real price moves. Note also that when a model serves many tasks its quotient is a token-weighted portfolio of $\lambda\,g(\theta_m(B)/\lambda)$: economic fitness is conditional on both model and task, and a single number summarizes the pieces of the frontier a model occupies rather than an intrinsic scalar quality. Cross-task comparability further presumes a common, or suitably normalized, response function $\phi$ across tasks: with task-specific $\phi_B$, deflated quotients from different tasks reflect different elasticities as well as different productivities. The two subsections that follow describe the two further ways the comparison degrades.
 
@@ -465,9 +477,11 @@ Under these conditions $\Delta\PnL/\Delta T \approx \theta_m(B)\,\phi'(z_B)$, an
 
 \subsection{The intensive and the extensive margin}
 
-PnL per token is an intensive-margin statistic: it measures value per token on the niches a model occupies, conditional on operating there. Production share also requires the extensive margin, the economic mass of those niches: Theorem~\ref{thm:extinction} runs through $\mu(E_t)$, and a model with $\theta = 100$ on a niche of measure $10^{-9}$ combines spectacular PnL per token with negligible share. Commercial survival requires more still. Under log production an owned task yields inframarginal rent
+PnL per token is an intensive-margin statistic: it measures value per token on the niches a model occupies, conditional on operating there. Production share also requires the extensive margin, the economic mass of those niches: Theorem~\ref{thm:extinction} runs through $\mu(E_t)$, and a model with $\theta = 100$ on a niche of measure $10^{-9}$ combines spectacular PnL per token with negligible share. Commercial survival requires more still. Under log production an active task, $\theta > \lambda$, yields inframarginal rent per unit of task mass
 \begin{equation}
-R(\theta, \lambda) = \phi(\theta q) - \lambda q = \log\frac{\theta}{\lambda} - 1 + \frac{\lambda}{\theta}
+R(\theta, \lambda) = \phi(\theta q) - \lambda q = \log\frac{\theta}{\lambda} - 1 + \frac{\lambda}{\theta},
+\qquad
+R(\theta, \lambda) = 0 \text{ for } \theta \le \lambda,
 \end{equation}
 above the shadow opportunity cost of its compute; with compute elastically supplied at unit cash cost (the elastic-supply remark of Section~\ref{sec:explicit}), $\lambda = 1$ and $R(\theta) = \log\theta - 1 + 1/\theta$ is operating rent above actual compute cost. It is total rent integrated over owned tasks, not average PnL per token, that must eventually cover a technology's fixed development and maintenance cost. The chain runs: task productivity, PnL per token, allocation, total rents, commercial survival. This paper establishes the middle of the chain; the final arrow is the entry model of Remark~\ref{rem:conditional}.
 
@@ -480,5 +494,29 @@ The claim this paper establishes is:
 \emph{Survival is determined by task-conditional marginal economic productivity per standardized unit of compute. A competitive prediction market pays exactly that margin, so average PnL per token equals the shadow price of compute times the inverse elasticity of task value with respect to effective compute, and at a common shadow price ranks task-level productivity when that elasticity declines with crowding; the statistic degrades insofar as deployment is administered or scarcity regimes are mixed.}
 \end{center}
 This statement says when a PnL-per-token league table is a valid fitness measure---competitive deployment---and what contaminates it: administered scale, unmatched task mix and congestion, non-standardized compute. For technological survival, the economically fundamental question is not \emph{how capable is the model?} but \emph{on what part of an increasingly subdivided production chain does this model remain the highest-value use of compute?}
+
+\section*{References}
+
+\begin{thebibliography}{9}
+
+\bibitem{acemogluautor2011}
+Acemoglu, D., and Autor, D. (2011). ``Skills, Tasks and Technologies: Implications for Employment and Earnings.'' In Ashenfelter, O., and Card, D. (Eds.), \emph{Handbook of Labor Economics}, Vol.~4B, Elsevier, 1043--1171.
+
+\bibitem{beckermurphy1992}
+Becker, G.~S., and Murphy, K.~M. (1992). ``The Division of Labor, Coordination Costs, and Knowledge.'' \emph{Quarterly Journal of Economics} 107(4), 1137--1160.
+
+\bibitem{cotton2022}
+Cotton, P. (2022). \emph{Microprediction: Building an Open AI Network}. MIT Press, Cambridge, MA.
+
+\bibitem{hanson2007}
+Hanson, R. (2007). ``Logarithmic Market Scoring Rules for Modular Combinatorial Information Aggregation.'' \emph{Journal of Prediction Markets} 1(1), 3--15.
+
+\bibitem{ricardo1817}
+Ricardo, D. (1817). \emph{On the Principles of Political Economy and Taxation}. John Murray, London.
+
+\bibitem{smith1776}
+Smith, A. (1776). \emph{An Inquiry into the Nature and Causes of the Wealth of Nations}. W. Strahan and T. Cadell, London.
+
+\end{thebibliography}
 
 \end{document}
