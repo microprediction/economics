@@ -37,11 +37,7 @@ division of labor \sep compute allocation \sep artificial intelligence \sep tech
 
 The contest for leadership in large language models is treated as strategically decisive. Governments restrict exports of the chips that train frontier models, laboratories commit capital on the scale of national infrastructure, and progress is scored on capability benchmarks. The public leaderboards that order the field rank ability alone: win rates, accuracy, exam scores. None ranks value created per unit of compute. Beneath the race sits a premise: the most capable model captures the work, and with it the economic value of machine intelligence.
 
-The premise fails in equilibrium. A model can outscore every rival on every benchmark and still lose the work, because when computational work can be subdivided and subcontracted without friction, each separable piece goes to whichever technology creates the most value per unit of compute. A general model rationally delegates whenever a cheaper specialist sits above it on that criterion. The reason is division of labor, and it does not care who won the race.
-
-This note makes a single observation and develops its consequence. When compute is itinerant, free to move between prediction tasks and to run any available algorithm, and each opportunity contains finite alpha, competitive equilibrium does two things at once: it equalizes marginal profit-and-loss (PnL) per token across all active uses of compute, and within each task it hands execution entirely to the technology with the highest value per token. Raw capability enters neither condition.
-
-Two consequences follow. First, a generalist strictly more capable than every specialist can have equilibrium compute share tending to zero as tasks subdivide (Section~\ref{sec:exit}): the capability race can be won while the production economy is lost. Second, the natural economic scoreboard, lifetime PnL divided by lifetime tokens in a competitive prediction market, is an average of true marginal payments: when compute picks its own battles it ranks technologies correctly, and it inverts only when deployment is administered (Section~\ref{sec:measure}).
+The premise fails in equilibrium. When compute is itinerant, free to move between prediction tasks and to run any available algorithm, and every opportunity contains finite alpha, each subcontractible task goes to whichever model creates the most value per token of compute. Capability enters nowhere: we exhibit a closed-form equilibrium in which a model that outscores every rival on every benchmark has compute share tending to zero as the division of labor refines. The statistic that does track survival is profit-and-loss (PnL) per token in a competitive prediction market, which pays each entry its marginal contribution at the state it faced: it ranks technologies when compute picks its own battles, and inverts when deployment is administered.
 
 The mechanism is old. \citet{smith1776} tied the division of labour to the extent of the market; \citet{ricardo1817} showed the absolutely better party does not get all the work; \citet{beckermurphy1992} bound specialization by coordination costs; \citet{acemogluautor2011} model production as a task continuum with technologies assigned by comparative advantage. \citet{cotton2022} supplies the vision this note formalizes: analytical tasks naturally evolve into radically low-cost prediction supply chains. We import the classical skeleton, replace labor with compute, and add the feature specific to prediction: alpha decays with crowding, so returns to effort on a task are concave.
 
@@ -111,7 +107,7 @@ A competitive prediction market pays exactly this margin. Under a market scoring
 
 If compute chooses, the average ranks correctly.
 
-\begin{lemma}[Competitive deployment makes the lifetime quotient a valid scoreboard]
+\begin{lemma}[Competitive deployment ranks correctly]
 \label{lem:ap}
 Under the water-filling allocation \eqref{eq:waterfill} with $\phi(z) = \log(1+z)$, a model serving a task with productivity $\theta > \lambda$ earns average PnL per token
 \begin{equation}
