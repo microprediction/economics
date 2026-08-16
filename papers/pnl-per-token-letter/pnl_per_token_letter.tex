@@ -34,7 +34,7 @@ division of labor \sep compute allocation \sep artificial intelligence \sep tech
 
 \section{Introduction}
 
-The contest to build the most capable large language model is treated as strategically decisive. Governments restrict exports of the chips that train frontier models, laboratories commit capital on the scale of national infrastructure, and progress is scored on capability benchmarks. Beneath the race sits a premise: the most capable model captures the work, and with it the economic value of machine intelligence.
+The contest to build the most capable large language model is treated as strategically decisive. Governments restrict exports of the chips that train frontier models, laboratories commit capital on the scale of national infrastructure, and progress is scored on capability benchmarks. The public leaderboards that order the field rank ability alone: win rates, accuracy, exam scores. None ranks value created per unit of compute. Beneath the race sits a premise: the most capable model captures the work, and with it the economic value of machine intelligence.
 
 The premise fails in equilibrium. A model can outscore every rival on every benchmark and still lose the work, because when computational work can be subdivided and subcontracted without friction, each separable piece goes to whichever technology creates the most value per unit of compute. A general model rationally delegates whenever a cheaper specialist sits above it on that criterion. The reason is division of labor, and it does not care who won the race.
 
@@ -110,7 +110,7 @@ First, realized marginal PnL per token cannot rank survivors: it equals $\lambda
 
 Second, average PnL per token is not the marginal object and can invert the ranking. On one task the average and marginal products are $AP(q) = \phi(\theta q)/q$ and $MP(q) = \theta\,\phi'(\theta q)$. With $\phi(z) = \log(1+z)$, a superior technology $\theta_A = 2$ deployed at scale $q_A = 100$ averages $\log 201 / 100 \approx 0.053$ per token, while an inferior $\theta_B = 1$ at $q_B = 1$ averages $\log 2 \approx 0.693$. The average confounds technology with allocation: deployment scale and task mix enter the ratio on equal terms with $\theta$.
 
-The valid statistic is the incremental return $\Delta\PnL / \Delta T$, measured with small increments relative to deployed scale, on a matched task, at matched congestion, with tokens denominated in compute cost and PnL generated under a fixed risk protocol. Under those conditions $\Delta\PnL/\Delta T \approx \theta_m(B)\,\phi'(z_B)$, and comparisons at matched $(B, z_B)$ recover the ranking that decides execution. A league table of lifetime PnL over lifetime tokens satisfies none of the conditions.
+The valid statistic is the incremental return $\Delta\PnL / \Delta T$, measured with small increments relative to deployed scale, on a matched task, at matched congestion, with tokens denominated in compute cost and PnL generated under a fixed risk protocol. Under those conditions $\Delta\PnL/\Delta T \approx \theta_m(B)\,\phi'(z_B)$, and comparisons at matched $(B, z_B)$ recover the ranking that decides execution. A league table of lifetime PnL over lifetime tokens satisfies none of the conditions, and the capability leaderboards that currently order the field measure $b$, not $\theta$: they rank models on the axis that equilibrium ignores.
 
 \section{Discussion}
 \label{sec:discussion}
