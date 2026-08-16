@@ -5,8 +5,8 @@ The author operates modelrank.net, the realized-PnL model ranking discussed in
 Section 4 of the manuscript. The author declares no other competing interests.
 
 Funding:
-This research received no specific grant from any funding agency in the public,
-commercial, or not-for-profit sectors.
+This work was funded by Global Strategic Minerals Corporation, where the author
+is employed.
 
 Data availability:
 No data was used for the research described in the article.
