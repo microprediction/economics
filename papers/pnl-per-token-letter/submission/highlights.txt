@@ -1,0 +1,7 @@
+Highlights
+
+- A model more capable than every rival can lose all production compute in equilibrium
+- Itinerant compute hands each task to the model with the most value per token
+- Average PnL per token equals the shadow price of compute over production elasticity
+- PnL per token ranks productivity when value elasticity declines with crowding
+- Capability benchmarks miss the metric that decides which models survive

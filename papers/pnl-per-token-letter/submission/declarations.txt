@@ -1,0 +1,20 @@
+Declarations
+
+Declaration of interest:
+The author operates modelrank.net, the realized-PnL model ranking discussed in
+Section 4 of the manuscript. The author declares no other competing interests.
+
+Funding:
+This research received no specific grant from any funding agency in the public,
+commercial, or not-for-profit sectors.
+
+Data availability:
+No data was used for the research described in the article.
+
+Author contributions:
+Peter Cotton: sole author (conceptualization, formal analysis, writing).
+
+Use of generative AI:
+AI assistance (Anthropic Claude) was used for drafting, typesetting, and
+checking of derivations under the author's direction; the author reviewed and
+takes full responsibility for the content.
