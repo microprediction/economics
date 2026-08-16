@@ -4,7 +4,7 @@ Working papers on the economics of AI production: who executes the work when
 computation is subdivided, subcontracted, and free to move.
 
 **Paper:** [Division of Labor and the Survival Value of PnL per Token](https://economics.microprediction.org/pnl_per_token.pdf)
-**Short version (Economics Letters draft):** [The Survival Value of PnL per Token](https://economics.microprediction.org/pnl_per_token_letter.pdf)
+**Short version (Economics Letters draft):** [Winning the Capability Race and Losing the Production Economy](https://economics.microprediction.org/pnl_per_token_letter.pdf)
 **Sources:** [`papers/`](papers/)
 
 A competitive economy of prediction tasks supplied by itinerant compute.
