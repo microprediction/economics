@@ -22,7 +22,7 @@
 \ead{peter.cotton@microprediction.com}
 
 \begin{abstract}
-Firms and governments treat the race to build the most capable large language model as strategically decisive, with capability benchmarks as its scoreboard. This may be the wrong metric. We model prediction as a production economy in which standardized units of compute are itinerant: they move freely between tasks and instantiate any available algorithm. Equilibrium equalizes marginal profit-and-loss per token across active uses of compute, and any technology offering strictly less value per token on a subcontractible task receives zero execution share. In a closed-form example, the most capable model has compute share tending to zero as the division of labor refines. The strategically relevant statistic is not benchmark capability but incremental PnL per unit of compute cost at matched task and congestion.
+Firms and governments treat the race to build the most capable large language model as strategically decisive, with capability benchmarks as its scoreboard. This may be the wrong metric. We model prediction as a production economy in which standardized units of compute are itinerant: they move freely between tasks and instantiate any available algorithm. Equilibrium equalizes marginal profit-and-loss per token across active uses of compute, and any technology offering strictly less value per token on a subcontractible task receives zero execution share. In a closed-form example, the most capable model has compute share tending to zero as the division of labor refines. PnL in a competitive prediction market pays each entry its marginal contribution at the state it faced; measured incrementally per unit of compute cost at matched task and congestion, it is the strategically relevant statistic, and no capability benchmark supplies it.
 \end{abstract}
 
 \begin{keyword}
@@ -104,13 +104,15 @@ The example generalizes. Let $E_t = \{ x : \theta_G(x) \ge \max_{m \in \mathcal{
 \section{What PnL per token measures}
 \label{sec:measure}
 
-Equilibrium supplies two warnings about measurement.
+Almost nobody measures models economically. The leaderboards that order the field rank ability alone, and at the time of writing the sole public attempt at an economic ranking, \texttt{modelrank.net}, divides cumulative trading PnL by cumulative tokens. The model says what such a quotient can and cannot mean.
 
-First, realized marginal PnL per token cannot rank survivors: it equals $\lambda$ for every active model--task pair. It measures the scarcity of compute, not the quality of a model. Selection runs on the counterfactual comparison $\theta_m(B)\,\phi'(z)$ at a common task and congestion state, whose ranking across models is the ranking of $\theta_m(B)$.
+Start with what PnL gets right. In a competitive prediction market, a participant is paid the improvement it makes over the prevailing market state: under a market scoring rule the payout to each entry is the gain in score over the standing forecast, and payouts telescope, so the market divides total value created across entrants with nothing left over \citep{hanson2007}. Prediction-market PnL is therefore marginal-contribution accounting. A token of model $m$ entering task $B$ at congestion $z_B$ earns $\theta_m(B)\,\phi'(z_B)$, the object that decides execution in Section~\ref{sec:economy}. In English: the market pays each token its marginal product at the state it faced. No capability benchmark has this property.
 
-Second, average PnL per token is not the marginal object and can invert the ranking. On one task the average and marginal products are $AP(q) = \phi(\theta q)/q$ and $MP(q) = \theta\,\phi'(\theta q)$. With $\phi(z) = \log(1+z)$, a superior technology $\theta_A = 2$ deployed at scale $q_A = 100$ averages $\log 201 / 100 \approx 0.053$ per token, while an inferior $\theta_B = 1$ at $q_B = 1$ averages $\log 2 \approx 0.693$. The average confounds technology with allocation: deployment scale and task mix enter the ratio on equal terms with $\theta$.
+Two corrections are still required before the quotient ranks technologies. First, in full equilibrium the margin equals the same $\lambda$ for every surviving model--task pair, so realized margins go flat across survivors. What stays informative is excess PnL per token out of equilibrium, since a technology above the frontier earns more than $\lambda$ until crowding removes the excess, and quantities: who absorbs the compute.
 
-The valid statistic is the incremental return $\Delta\PnL / \Delta T$, measured with small increments relative to deployed scale, on a matched task, at matched congestion, with tokens denominated in compute cost and PnL generated under a fixed risk protocol. Under those conditions $\Delta\PnL/\Delta T \approx \theta_m(B)\,\phi'(z_B)$, and comparisons at matched $(B, z_B)$ recover the ranking that decides execution. A league table of lifetime PnL over lifetime tokens satisfies none of the conditions, and the capability leaderboards that currently order the field measure $b$, not $\theta$: they rank models on the axis that equilibrium ignores.
+Second, cumulative PnL over cumulative tokens averages marginal products over the path of past congestion states and task mixes, and the average can invert the ranking. On one task the average and marginal products are $AP(q) = \phi(\theta q)/q$ and $MP(q) = \theta\,\phi'(\theta q)$. With $\phi(z) = \log(1+z)$, a superior technology $\theta_A = 2$ deployed at scale $q_A = 100$ averages $\log 201 / 100 \approx 0.053$ per token, while an inferior $\theta_B = 1$ at $q_B = 1$ averages $\log 2 \approx 0.693$. The lifetime quotient confounds technology with allocation.
+
+The statistic that ranks technologies is the incremental return $\Delta\PnL / \Delta T$: small increments relative to deployed scale, matched task, matched congestion, tokens denominated in compute cost, PnL under a fixed risk protocol. Under those conditions $\Delta\PnL/\Delta T \approx \theta_m(B)\,\phi'(z_B)$, and comparisons at matched $(B, z_B)$ recover the ranking that decides execution. A competitive prediction market generates the raw material for this statistic automatically; the unconditioned quotient does not, and the capability leaderboards measure $b$, not $\theta$: they rank models on the axis that equilibrium ignores.
 
 \section{Discussion}
 \label{sec:discussion}
@@ -134,6 +136,10 @@ and knowledge. Quarterly Journal of Economics 107, 1137--1160.
 \bibitem[Cotton(2022)]{cotton2022}
 Cotton, P., 2022. Microprediction: Building an Open AI Network. MIT Press,
 Cambridge, MA.
+
+\bibitem[Hanson(2007)]{hanson2007}
+Hanson, R., 2007. Logarithmic market scoring rules for modular combinatorial
+information aggregation. Journal of Prediction Markets 1, 3--15.
 
 \bibitem[Ricardo(1817)]{ricardo1817}
 Ricardo, D., 1817. On the Principles of Political Economy and Taxation.

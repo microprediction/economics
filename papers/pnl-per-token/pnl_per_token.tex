@@ -400,6 +400,10 @@ compared across models at a \emph{common} task $x$ and congestion state $z$. Sel
 
 Two distinct statistics must not be confused with it.
 
+\subsection{Prediction markets pay the margin}
+
+Almost nobody measures models economically. The leaderboards that order the field rank raw ability alone, and at the time of writing the sole public attempt at an economic ranking, \texttt{modelrank.net}, divides cumulative trading PnL by cumulative tokens. The prediction-market setting is nevertheless the right instrument. In a competitive prediction market a participant is paid the improvement it makes over the prevailing market state: under a market scoring rule each entry's payout is the gain in score over the standing forecast, and payouts telescope, so the market divides the total value created across entrants with nothing left over.\footnote{Hanson, R. (2007). ``Logarithmic market scoring rules for modular combinatorial information aggregation.'' \emph{Journal of Prediction Markets} 1, 3--15.} Prediction-market PnL is therefore marginal-contribution accounting: a token of model $m$ entering task $B$ at congestion $z_B$ earns $\theta_m(B)\,\phi'(z_B)$, exactly the selection object. The two subsections that follow say why aggregating that accounting into a lifetime quotient, as the unconditioned ranking does, destroys the comparison.
+
 \subsection{Realized marginal PnL per token is equalized, hence uninformative}
 
 By \eqref{eq:eq1}, every surviving model--task pair earns exactly $\lambda$. An econometrician observing realized marginal returns among active technologies sees a flat cross-section: the statistic identifies the shadow price of compute, not relative model quality (Remark~\ref{rem:uninformative}). Differences in $\theta$ show up not in survivors' realized returns but in \emph{who survives where and how much compute they absorb}---quantities, not prices.
