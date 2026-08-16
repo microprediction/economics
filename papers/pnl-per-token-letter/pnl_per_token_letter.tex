@@ -64,7 +64,13 @@ If $\theta_{m^*}(B) > \theta_m(B)$ for every $m \neq m^*$, then in any equilibri
 \end{proposition}
 
 \begin{proof}
-If some $m \neq m^*$ had $q_{mB} > 0$ then $\theta_m(B)\,\phi'(z_B) = \lambda$, so $\theta_{m^*}(B)\,\phi'(z_B) > \lambda$, and a token improves by switching to $m^*$ on the same task. \qed
+If some $m \neq m^*$ had $q_{mB} > 0$ then
+\begin{equation*}
+\theta_m(B)\,\phi'(z_B) = \lambda
+\qquad\text{and}\qquad
+\theta_{m^*}(B)\,\phi'(z_B) > \lambda,
+\end{equation*}
+so a token improves by switching to $m^*$ on the same task. \qed
 \end{proof}
 
 Selection therefore runs on the upper envelope $\theta^*(B) = \max_m \theta_m(B)$, and an inferior technology receives zero execution share, not a small one. Take $\phi(z) = \log(1+z)$. Active tasks satisfy $\theta^*(B) / (1 + \theta^*(B) q_B) = \lambda$, so
@@ -109,7 +115,7 @@ If compute chooses, the average ranks correctly.
 
 \begin{lemma}[Competitive deployment ranks correctly]
 \label{lem:ap}
-Under the water-filling allocation \eqref{eq:waterfill} with $\phi(z) = \log(1+z)$, a model serving a task with productivity $\theta > \lambda$ earns average PnL per token
+Take $\phi(z) = \log(1+z)$ and the water-filling allocation \eqref{eq:waterfill}. A model serving a task with productivity $\theta > \lambda$ earns average PnL per token
 \begin{equation}
 AP(\theta) = \lambda\, g(\theta/\lambda),
 \qquad
@@ -126,7 +132,7 @@ In English: the margin is the same $\lambda$ for every survivor, but the inframa
 
 If deployment is administered instead, the same quotient can invert. Route $\theta_A = 2$ onto a task at scale $q_A = 100$ while $\theta_B = 1$ sits at $q_B = 1$: telescoped payments total $\phi(\theta q)$, so $A$ averages $\log 201/100 \approx 0.053$ per token against $B$'s $\log 2 \approx 0.693$. Over-deployment, for instance a laboratory routing all traffic to its own generalist, buries a superior technology's average under its own crowding.
 
-At the time of writing the leaderboards that order the field rank ability alone, and the sole public attempt at an economic ranking, \texttt{modelrank.net}, computes the lifetime quotient from prediction-market participation. Lemma~\ref{lem:ap} says when to trust it: the quotient ranks $\theta$ correctly insofar as the underlying deployment is competitive, and degrades insofar as it is administered. Capability benchmarks measure $b$, not $\theta$: they rank models on the axis that equilibrium ignores.
+At the time of writing, public leaderboards rank ability alone; the sole attempt at an economic ranking, \texttt{modelrank.net}, computes the lifetime quotient from prediction-market participation. Lemma~\ref{lem:ap} says when to trust it: the quotient ranks $\theta$ correctly insofar as the underlying deployment is competitive, and degrades insofar as it is administered. Capability benchmarks measure $b$, not $\theta$: they rank models on the axis that equilibrium ignores.
 
 \section{Discussion}
 \label{sec:discussion}
