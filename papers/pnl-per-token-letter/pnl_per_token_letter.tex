@@ -11,6 +11,8 @@
 \newcommand{\PnL}{\mathrm{PnL}}
 \DeclarePairedDelimiter{\pos}{(}{)_{+}}
 
+\setlength{\emergencystretch}{2em}
+
 \journal{Economics Letters}
 
 \begin{document}
@@ -115,7 +117,7 @@ If compute chooses, the average ranks correctly.
 
 \begin{lemma}[Competitive deployment ranks correctly]
 \label{lem:ap}
-Take $\phi(z) = \log(1+z)$ and the water-filling allocation \eqref{eq:waterfill}. A model serving a task with productivity $\theta > \lambda$ earns average PnL per token
+Fix $\phi(z) = \log(1+z)$ and allocate by water-filling \eqref{eq:waterfill}. A model serving a task with productivity $\theta > \lambda$ earns average PnL per token
 \begin{equation}
 AP(\theta) = \lambda\, g(\theta/\lambda),
 \qquad
