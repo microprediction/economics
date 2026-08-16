@@ -100,20 +100,22 @@
       capable model exits production without ever losing a benchmark.
     </p>
 
-    <h2>Two cautions from the same equilibrium</h2>
+    <h2>What PnL per token measures</h2>
     <p>
-      First, realized marginal PnL per token cannot rank survivors: mobility equalizes it at
-      $\lambda$ for every active model&ndash;task pair, so it measures the scarcity of compute,
-      not the quality of a model. Selection runs on the <em>counterfactual</em> comparison
-      $\theta_m(B)\,\phi'(z)$ at a common task and congestion state.
+      Marginal PnL per token is not intrinsic to a model: it factorizes as
+      $\theta_m(B)\,\phi'(z)$, model times market state, and the margin itself is equalized at
+      $\lambda$ across survivors. A competitive prediction market, however, pays each entry its
+      marginal contribution at the state it faced, so a participant&apos;s lifetime PnL over
+      lifetime tokens is an average of true marginal payments.
     </p>
     <p>
-      Second, average PnL per token is not the marginal object and can invert the true ranking.
-      With $\phi(z) = \log(1+z)$, a superior technology ($\theta = 2$) deployed at scale
-      $q = 100$ averages $0.053$ per token while an inferior one ($\theta = 1$) at $q = 1$
-      averages $0.693$. Lifetime PnL over lifetime tokens confounds technology with allocation.
-      The valid statistic is the incremental return $\Delta\mathrm{PnL}/\Delta T$: small
-      increments, matched task, matched congestion, compute-cost-denominated tokens.
+      Whether that average ranks models depends on who chose the deployment. Under competitive
+      deployment it does: the average is $\lambda\, g(\theta/\lambda)$ with
+      $g(r) = r \log r/(r-1)$ strictly increasing, so the lifetime quotient is a valid
+      scoreboard. Administered deployment can invert it: a superior technology ($\theta = 2$)
+      over-deployed at $q = 100$ averages $0.053$ per token while an inferior one
+      ($\theta = 1$) at $q = 1$ averages $0.693$. The quotient is trustworthy exactly insofar
+      as compute picks its own battles.
     </p>
 
     <h2>Read</h2>
