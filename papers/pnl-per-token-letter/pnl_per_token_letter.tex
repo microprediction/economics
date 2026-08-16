@@ -22,7 +22,7 @@
 \ead{peter.cotton@microprediction.com}
 
 \begin{abstract}
-A model can be more capable than every competitor and still vanish from production. We model prediction as a production economy in which standardized units of compute are itinerant: they move freely between tasks and instantiate any available algorithm. Equilibrium equalizes marginal profit-and-loss per token across active uses of compute, and any technology offering strictly less value per token on a subcontractible task receives zero execution share. In a closed-form example, a generalist that beats every specialist on accuracy has compute share tending to zero as the division of labor refines. Aggregate PnL per token can invert the true ranking; the valid fitness statistic is incremental PnL per unit of compute cost at matched task and congestion.
+Firms and governments treat the race to build the most capable large language model as strategically decisive, with capability benchmarks as its scoreboard. We model prediction as a production economy in which standardized units of compute are itinerant: they move freely between tasks and instantiate any available algorithm. Equilibrium equalizes marginal profit-and-loss per token across active uses of compute, and any technology offering strictly less value per token on a subcontractible task receives zero execution share. In a closed-form example, the most capable model has compute share tending to zero as the division of labor refines. The strategically relevant statistic is not benchmark capability but incremental PnL per unit of compute cost at matched task and congestion.
 \end{abstract}
 
 \begin{keyword}
@@ -34,11 +34,13 @@ division of labor \sep compute allocation \sep artificial intelligence \sep tech
 
 \section{Introduction}
 
-A large model can outscore every rival on every benchmark and still lose the work. The reason is division of labor. When computational work can be subdivided and subcontracted without friction, each separable piece goes to whichever technology creates the most value per unit of compute, and a general model rationally delegates whenever a cheaper specialist sits above it on that criterion.
+The contest to build the most capable large language model is treated as strategically decisive. Governments restrict exports of the chips that train frontier models, laboratories commit capital on the scale of national infrastructure, and progress is scored on capability benchmarks. Beneath the race sits a premise: the most capable model captures the work, and with it the economic value of machine intelligence.
+
+The premise fails in equilibrium. A model can outscore every rival on every benchmark and still lose the work, because when computational work can be subdivided and subcontracted without friction, each separable piece goes to whichever technology creates the most value per unit of compute. A general model rationally delegates whenever a cheaper specialist sits above it on that criterion. The reason is division of labor, and it does not care who won the race.
 
 This note makes a single observation and develops its consequence. When compute is itinerant, free to move between prediction tasks and to run any available algorithm, and each opportunity contains finite alpha, competitive equilibrium does two things at once: it equalizes marginal profit-and-loss (PnL) per token across all active uses of compute, and within each task it hands execution entirely to the technology with the highest value per token. Raw capability enters neither condition.
 
-Two consequences follow. First, a generalist strictly more capable than every specialist can have equilibrium compute share tending to zero as tasks subdivide (Section~\ref{sec:exit}). Second, the league-table statistic, total PnL divided by total tokens, is not the quantity that governs survival and can invert the true ranking; the valid statistic is incremental PnL per unit of compute cost at matched task and congestion (Section~\ref{sec:measure}).
+Two consequences follow. First, a generalist strictly more capable than every specialist can have equilibrium compute share tending to zero as tasks subdivide (Section~\ref{sec:exit}): the capability race can be won while the production economy is lost. Second, the league-table statistic, total PnL divided by total tokens, is not the quantity that governs survival and can invert the true ranking; the valid statistic is incremental PnL per unit of compute cost at matched task and congestion (Section~\ref{sec:measure}).
 
 The mechanism is old. \citet{smith1776} tied the division of labour to the extent of the market; \citet{ricardo1817} showed the absolutely better party does not get all the work; \citet{beckermurphy1992} bound specialization by coordination costs; \citet{acemogluautor2011} model production as a task continuum with technologies assigned by comparative advantage. We import the skeleton, replace labor with compute, and add the feature specific to prediction: alpha decays with crowding, so returns to effort on a task are concave.
 
@@ -113,7 +115,7 @@ The valid statistic is the incremental return $\Delta\PnL / \Delta T$, measured 
 \section{Discussion}
 \label{sec:discussion}
 
-Capable large models need not disappear. Their comparative advantage may move up the production hierarchy, to decomposition, routing, verification, and the hard residual, whenever their value per token on those tasks sits on the frontier; in the present model that statement is an application of Proposition~\ref{prop:displacement} rather than a theorem, since decomposition here is free and exogenous. We leave to future work the entry model in which the profits identified here fund specialist development against fixed costs, making survival an equilibrium outcome rather than an assumption.
+Capable large models need not disappear. Their comparative advantage may move up the production hierarchy, to decomposition, routing, verification, and the hard residual, whenever their value per token on those tasks sits on the frontier; in the present model that statement is an application of Proposition~\ref{prop:displacement} rather than a theorem, since decomposition here is free and exogenous. For strategy, the question is therefore not who owns the most capable model but who owns the productivity frontier somewhere in the limiting division of labor. We leave to future work the entry model in which the profits identified here fund specialist development against fixed costs, making survival an equilibrium outcome rather than an assumption.
 
 \bibliographystyle{elsarticle-harv}
 
