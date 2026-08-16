@@ -227,7 +227,7 @@ V(q) = \int_\Omega \phi\!\left( \sum_{m :\, x \in A_m} \theta_m(x)\, q_m(x) \rig
 with $q_m = 0$ off $A_m$.
 Because $\theta_m$ is itself $\mathcal{P}_t$-measurable at date $t$, \eqref{eq:microV} coincides with the cell formulation \eqref{eq:V} on $\mathcal{P}_t$-measurable allocations; and a $\mathcal{P}_t$-measurable allocation is automatically $\mathcal{P}_{t+1}$-measurable.
 
-Refinement and technological arrival must not be confounded: from date $t$ to $t{+}1$ both the partition and the model set change, and a value gain may come from either. Write $V^*(\mathcal{P}; \mathcal{M})$ for the optimal value of \eqref{eq:microV} over $\mathcal{P}$-measurable allocations using the models in $\mathcal{M}$, for partitions \emph{adapted} to $\mathcal{M}$: each $A_m$ a union of cells and each $\theta_m$ measurable with respect to the partition. On such a partition an allocation is a finite-dimensional vector $(q_{mB})$ on a compact simplex, so the maximum is attained. The date-to-date comparison then decomposes as
+Refinement and technological arrival must not be confounded: from date $t$ to $t{+}1$ both the partition and the model set change, and a value gain may come from either. Write $V^*(\mathcal{P}; \mathcal{M})$ for the maximum of \eqref{eq:microV} over $\mathcal{P}$-measurable allocations using the models in $\mathcal{M}$. This is well defined for any finite partition $\mathcal{P}$: the allocation is a finite-dimensional vector on a compact simplex and the objective is continuous, so the maximum is attained. Adaptation of a partition to $\mathcal{M}$---each $A_m$ a union of cells, each $\theta_m$ measurable with respect to the partition---is not needed for the optimization to be well defined; it is needed only to identify the integral formulation with the cell formulation \eqref{eq:V} and to speak of cellwise frontier suppliers. The date-to-date comparison then decomposes as
 \begin{equation}
 V^*_{t+1} = V^*(\mathcal{P}_{t+1}; \mathcal{M}_{t+1})
 \;\ge\; V^*(\mathcal{P}_t; \mathcal{M}_{t+1})
@@ -246,7 +246,7 @@ Any $\mathcal{P}$-measurable allocation is $\mathcal{P}'$-measurable, so the fea
 
 \begin{proposition}[Strict value of refinement]
 \label{prop:strict}
-Fix $\mathcal{M}$ and let $\mathcal{P}'$ refine $\mathcal{P}$, both adapted to $\mathcal{M}$. Suppose the optimum under $\mathcal{P}'$ assigns strictly positive compute to two children $B_1, B_2 \subset B$ of some cell of $\mathcal{P}$, with distinct unique frontier suppliers $m_1 \neq m_2$ in $\mathcal{M}$. Then $V^*(\mathcal{P}'; \mathcal{M}) > V^*(\mathcal{P}; \mathcal{M})$.
+Fix $\mathcal{M}$ and let $\mathcal{P}'$ refine $\mathcal{P}$, with $\mathcal{P}'$ adapted to $\mathcal{M}$. Suppose the optimum under $\mathcal{P}'$ assigns strictly positive compute to two children $B_1, B_2 \subset B$ of some cell of $\mathcal{P}$, with distinct unique frontier suppliers $m_1 \neq m_2$ in $\mathcal{M}$. Then $V^*(\mathcal{P}'; \mathcal{M}) > V^*(\mathcal{P}; \mathcal{M})$.
 \end{proposition}
 
 \begin{proof}
