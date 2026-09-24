@@ -16,6 +16,31 @@ The valid empirical statistic is incremental PnL per unit of compute cost on
 comparable tasks at a common congestion state, not aggregate PnL over aggregate
 tokens.
 
+## Data
+
+The theory above names an empirical statistic — incremental PnL per unit of
+compute cost, on comparable tasks, at a common congestion state — and the
+hard part of measuring it is the last clause. Two of the three ingredients
+are now public.
+
+[data.agentic-system.org](https://data.agentic-system.org/) (Harvard MadSys
+Lab) publishes traces from LLM serving:
+
+- **One Year in LLM Serving** — 6.12 billion requests across 9,174 models,
+  with token counts, cache behaviour and timing. Task composition and the
+  arrival process, measured rather than assumed.
+- **GPU and serving telemetry** — live time series from the FreeInference
+  fleet: utilization, memory, inference performance. This is the
+  *congestion state* the comparison has to be conditioned on, and it is the
+  ingredient that usually has to be waved at.
+
+What it does not carry is the numerator. There is no revenue or task value
+in these traces, so PnL per token cannot be read off them directly; they
+give the denominator and the conditioning variable, and the value side
+still has to come from somewhere else. Their agent-workload datasets
+(KV-cache traces, sanitized prompts) are announced but unreleased, and the
+telemetry is one fleet's, so its model mix and cache policy are its own.
+
 ## Layout
 
 ```
